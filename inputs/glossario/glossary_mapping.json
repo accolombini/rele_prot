@@ -1,0 +1,3238 @@
+{
+  "MICON": [
+    {
+      "code": "010A",
+      "name": "Reference",
+      "unit": "",
+      "value_example": "3B.1",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0104",
+      "name": "Frequency",
+      "unit": "",
+      "value_example": "60Hz",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0079",
+      "name": "Description",
+      "unit": "",
+      "value_example": "P122B00Z172EC0 P122B00Z172EC0",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0109",
+      "name": "Default Display",
+      "unit": "",
+      "value_example": "RMS Ie",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0105",
+      "name": "Phase A Text",
+      "unit": "A",
+      "value_example": "R",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0106",
+      "name": "Phase B Text",
+      "unit": "S",
+      "value_example": "S",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0107",
+      "name": "Phase C Text",
+      "unit": "",
+      "value_example": "T",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0108",
+      "name": "E/Gnd Text",
+      "unit": "",
+      "value_example": "N",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0120",
+      "name": "Line CT primary",
+      "unit": "",
+      "value_example": "1500",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0121",
+      "name": "Line CT sec",
+      "unit": "",
+      "value_example": "5",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0122",
+      "name": "E/Gnd CT primary",
+      "unit": "",
+      "value_example": "1500",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0123",
+      "name": "E/Gnd CT sec",
+      "unit": "",
+      "value_example": "5",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0200",
+      "name": "Function I>",
+      "unit": "",
+      "value_example": "Yes YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0201",
+      "name": "I>",
+      "unit": "",
+      "value_example": "0.63In",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0202",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "IDMT 0202: Delay Type: DMT 0202: Delay Type: RI",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0203",
+      "name": "Idmt",
+      "unit": "",
+      "value_example": "SI (IEC) 0206:  tI>: 0.60s 0205:  K: 0.100",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0204",
+      "name": "Tms",
+      "unit": "",
+      "value_example": "0.500",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0209",
+      "name": "t Reset",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0210",
+      "name": "Function I>>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0211",
+      "name": "I>>",
+      "unit": "",
+      "value_example": "0.80In",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0213",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT 0213: Delay Type: IDMT 0213: Delay Type: RI",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0212",
+      "name": "tI>>",
+      "unit": "",
+      "value_example": "0.10s 0214   Idmt: SI (IEC) 0216:  K: 0.100",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0219",
+      "name": "tReset",
+      "unit": "",
+      "value_example": "0.04s 0215: Tms: 0.500",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0220",
+      "name": "Function I>>>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0223",
+      "name": "I>>> sample",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0221",
+      "name": "I>>>",
+      "unit": "",
+      "value_example": "0.50In",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0222",
+      "name": "tI>>>",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0230",
+      "name": "Function Ie>",
+      "unit": "",
+      "value_example": "YES / NO MICON_P122_205",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0231",
+      "name": "Ie>",
+      "unit": "",
+      "value_example": "0.630Ien MICON_P122_204_MF",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0232",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "IDMT 0232: Delay Type: DMT 0232: Delay Type: RI 0232: Delay Type: Laborelec Delay Type: RXIDG",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0233",
+      "name": "Idmt",
+      "unit": "",
+      "value_example": "SI (IEC) 0235:  tI>: 0.60s 0236:  K: 0.100 024A:   Idmt: Nertwork 1 023A: K: 0.3",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0234",
+      "name": "Tms",
+      "unit": "",
+      "value_example": "0.500 023B: Interlock Ie>>: Ie>>> No",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0239",
+      "name": "t Reset",
+      "unit": "",
+      "value_example": "0.04s   0239: t Reset:  0.04s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0240",
+      "name": "Function Ie>>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0241",
+      "name": "Ie>>",
+      "unit": "",
+      "value_example": "2.000Ien",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0243",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT 0243: Delay Type: IDMT 0243: Delay Type: RI 0243: Delay Type: Laborelec",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0242",
+      "name": "tIe>>",
+      "unit": "",
+      "value_example": "0.10s 0244   Idmt: SI (IEC) 0246:  K: 0.100 024A:   Idmt: Nertwork 1",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0249",
+      "name": "tReset",
+      "unit": "",
+      "value_example": "0.04s 0245: Tms: 0.500",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0250",
+      "name": "Function Ie>>>",
+      "unit": "",
+      "value_example": "Yes YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "024F",
+      "name": "Ie>>> sample",
+      "unit": "",
+      "value_example": "Yes YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0251",
+      "name": "Ie>>>",
+      "unit": "",
+      "value_example": "0.010Ien",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0252",
+      "name": "tIe>>>",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "025C",
+      "name": "Function I2>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "025D",
+      "name": "I2>",
+      "unit": "",
+      "value_example": "0.10In",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "025E",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT 025E: Delay Type: DMT 025E: Delay Type: RI",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0262",
+      "name": "tI2>",
+      "unit": "",
+      "value_example": "0.00s 025F: Curve: SI (IEC) 0261: K: 0.100",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0266",
+      "name": "Function I2>>",
+      "unit": "",
+      "value_example": "Yes/No 0260: Tms: 0.025  0265: t Reset: 0.04s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0267",
+      "name": "I2>>",
+      "unit": "",
+      "value_example": "0.10In  0265: t Reset: 0.04s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0268",
+      "name": "tI2>>",
+      "unit": "",
+      "value_example": "0.00s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "025A",
+      "name": "Function I<",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "025B",
+      "name": "I<",
+      "unit": "",
+      "value_example": "0.20In",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "026F",
+      "name": "tI<",
+      "unit": "",
+      "value_example": "0.00s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0300",
+      "name": "Function I>",
+      "unit": "",
+      "value_example": "No YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0310",
+      "name": "Function I>>",
+      "unit": "",
+      "value_example": "No YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "0320",
+      "name": "Function I>>>",
+      "unit": "",
+      "value_example": "No YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "018A",
+      "name": "CB Fail ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "01A4",
+      "name": "I<",
+      "unit": "In",
+      "value_example": "5% In",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "018B",
+      "name": "CB Fail Time TBF",
+      "unit": "",
+      "value_example": "0.20s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "01A5",
+      "name": "Bloc I>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "01A6",
+      "name": "Bloc Ie>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "01A2",
+      "name": "TC Supervison",
+      "unit": "",
+      "value_example": "Yes YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "01A3",
+      "name": "t Trip Circuit",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "01A0",
+      "name": "tClose Pulse",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "019F",
+      "name": "tOpen Pulse",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P122_52 e P122_204"
+    },
+    {
+      "code": "02A0",
+      "name": "Function Ie_d>",
+      "unit": "",
+      "value_example": "Yes YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02A1",
+      "name": "Ie_d>",
+      "unit": "",
+      "value_example": "0.10In",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02A2",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02A6",
+      "name": "tIe_d>",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02A9",
+      "name": "tReset",
+      "unit": "",
+      "value_example": "0.00s",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02B0",
+      "name": "Function Ie_d>>",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02B1",
+      "name": "Ie_d>>",
+      "unit": "",
+      "value_example": "0.10In",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02B2",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT  DMT IDMT RI",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02B6",
+      "name": "tIe_d>>",
+      "unit": "",
+      "value_example": "0.04s  Idmt: SI (IEC)  K: 0.100",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "02B9",
+      "name": "tReset",
+      "unit": "",
+      "value_example": "0.00s Tms: 0.500",
+      "model": "MICON",
+      "sheet": "MICON P122_205"
+    },
+    {
+      "code": "0000",
+      "name": "TYPE",
+      "unit": "",
+      "value_example": ":  P220-1",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "010A",
+      "name": "REFERENCE",
+      "unit": "",
+      "value_example": ": MF16",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0104",
+      "name": "FREQUENCY",
+      "unit": "",
+      "value_example": ": 60Hz",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0109",
+      "name": "SETTING GROUP",
+      "unit": "",
+      "value_example": "1",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0120",
+      "name": "PRIM PH",
+      "unit": "",
+      "value_example": ": 200",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0121",
+      "name": "SEC PH",
+      "unit": "",
+      "value_example": ": 5",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0122",
+      "name": "PRIM E",
+      "unit": "",
+      "value_example": ":  200",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0123",
+      "name": "SEC E",
+      "unit": "",
+      "value_example": ": 5",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0210",
+      "name": "I>> FUNCTION ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0211",
+      "name": "I>>",
+      "unit": "",
+      "value_example": ":  8.0In",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0212",
+      "name": "tI>>",
+      "unit": "",
+      "value_example": ":  0.03s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0220",
+      "name": "I0> FUNCTION ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0221",
+      "name": "I0>",
+      "unit": "",
+      "value_example": ":  0.500Ien",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0222",
+      "name": "tI0>",
+      "unit": "",
+      "value_example": ": 0.00s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0223",
+      "name": "I0>> FUNCTION ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0224",
+      "name": "I0>>",
+      "unit": "",
+      "value_example": ": 0.170Ien",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0225",
+      "name": "tI0>>",
+      "unit": "",
+      "value_example": ":  0.03s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0230",
+      "name": "I2> FUNCTION ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0231",
+      "name": "I2>",
+      "unit": "",
+      "value_example": ": 0.125In",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0232",
+      "name": "tI2>",
+      "unit": "",
+      "value_example": ": 3.00s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0233",
+      "name": "I2>> FUNCTION",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0234",
+      "name": "I2>>",
+      "unit": "",
+      "value_example": ":  0.200In",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0244",
+      "name": "BLOCKED ROTOR FUNCT ?",
+      "unit": "",
+      "value_example": "YES YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0245",
+      "name": "tIstall",
+      "unit": "",
+      "value_example": ":  2.0s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0246",
+      "name": "STALLED ROTOR ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0247",
+      "name": "Istall DETECTION",
+      "unit": "",
+      "value_example": ": 2.0Ith",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0248",
+      "name": "LOCK ROTOR AT START ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0250",
+      "name": "I< FUNCTION ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0251",
+      "name": "I<",
+      "unit": "",
+      "value_example": ":  0.10In",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0252",
+      "name": "tI<",
+      "unit": "",
+      "value_example": ": 0.2s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0253",
+      "name": "Tinhib",
+      "unit": "",
+      "value_example": ": 0.05s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0240",
+      "name": "EXCES LONG START FUNCT ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0241",
+      "name": "Istart DETECTION",
+      "unit": "",
+      "value_example": ": 2.0Ith",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0242",
+      "name": "tIstart",
+      "unit": "",
+      "value_example": ":  4s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0300",
+      "name": "THERMAL OVERLOAD FUNCT ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0310",
+      "name": "I>> FUNCTION ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0320",
+      "name": "I0> FUNCTION ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0323",
+      "name": "I0>> FUNCTION ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0330",
+      "name": "I2> FUNCTION ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0333",
+      "name": "I2>> FUNCTION",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0340",
+      "name": "EXCES LONG START FUNCT ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0344",
+      "name": "BLOCKED ROTOR FUNCT ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "0350",
+      "name": "I< FUNCTION ?",
+      "unit": "",
+      "value_example": "NO YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01DC",
+      "name": "SW OPERATING TIME ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01DE",
+      "name": "SW OPERATION NB ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01DF",
+      "name": "SW OPERATION NB",
+      "unit": "",
+      "value_example": ": 20",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01E0",
+      "name": "SAn ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01E1",
+      "name": "SAn",
+      "unit": "",
+      "value_example": ":  1MA^n",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01E2",
+      "name": "n",
+      "unit": "",
+      "value_example": ":  1",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01E3",
+      "name": "TRIP T",
+      "unit": "",
+      "value_example": ":  1.00s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01E4",
+      "name": "CLOSE T",
+      "unit": "",
+      "value_example": ":  1.00s",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01D3",
+      "name": "START NB LIMITAT FUNCT ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01D4",
+      "name": "Treference",
+      "unit": "",
+      "value_example": ":  60mn",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01D5",
+      "name": "HOT START NB",
+      "unit": "",
+      "value_example": ": 2",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01D6",
+      "name": "COLD START NB",
+      "unit": "",
+      "value_example": ": 3",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01D7",
+      "name": "Tinterdiction",
+      "unit": "",
+      "value_example": ": 30mn",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "01D8",
+      "name": "TIME BETW START FUNCT ?",
+      "unit": "",
+      "value_example": "YES / NO",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "START",
+      "name": "start",
+      "unit": "",
+      "value_example": ": 1mn",
+      "model": "MICON",
+      "sheet": "MICON P220"
+    },
+    {
+      "code": "010A",
+      "name": "Reference",
+      "unit": "",
+      "value_example": "01AC",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0104",
+      "name": "Frequency",
+      "unit": "Hz",
+      "value_example": "60 Hz",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0126",
+      "name": "Connection",
+      "unit": "",
+      "value_example": "2 Upp + Vr",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0109",
+      "name": "Default Display",
+      "unit": "",
+      "value_example": "RMS Va",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0120",
+      "name": "Main VT Primary",
+      "unit": "",
+      "value_example": "13800V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0122",
+      "name": "Main VT Secundary",
+      "unit": "",
+      "value_example": "120.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0123",
+      "name": "E/Gnd VT Primary",
+      "unit": "",
+      "value_example": "20000V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0125",
+      "name": "E/Gnd VT Secundary",
+      "unit": "",
+      "value_example": "100.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0142",
+      "name": "Setting Group",
+      "unit": "",
+      "value_example": "Threshold  / Level",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0200",
+      "name": "Function U<",
+      "unit": "",
+      "value_example": "AND / OR / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0201",
+      "name": "U<",
+      "unit": "",
+      "value_example": "30.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0202",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT IDMT",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0205",
+      "name": "tU<",
+      "unit": "",
+      "value_example": "0.50s  0203 :TMS: 1.0",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0210",
+      "name": "Function U<<",
+      "unit": "",
+      "value_example": "AND  AND / OR / No  0204: tReset U< : 0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0211",
+      "name": "U<<",
+      "unit": "",
+      "value_example": "5.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0212",
+      "name": "tU<<",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0220",
+      "name": "Function U<<<",
+      "unit": "",
+      "value_example": "AND  AND / OR / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0221",
+      "name": "U<<<",
+      "unit": "",
+      "value_example": "108.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0222",
+      "name": "tU<<<",
+      "unit": "",
+      "value_example": "0.25s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "022F",
+      "name": "Hysteresis",
+      "unit": "",
+      "value_example": "1.02",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0230",
+      "name": "Function U>",
+      "unit": "",
+      "value_example": "AND / OR / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0231",
+      "name": "U>",
+      "unit": "",
+      "value_example": "130.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0232",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT DMT IDMT",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0235",
+      "name": "tU>",
+      "unit": "",
+      "value_example": "0.04s  0233 :TMS: 1.0",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0240",
+      "name": "Function U>>",
+      "unit": "",
+      "value_example": "No  AND / OR / No  0234: tReset U< : 0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0242",
+      "name": "tU>>",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0250",
+      "name": "Function U>>>",
+      "unit": "",
+      "value_example": "No  AND / OR / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0251",
+      "name": "U>>>",
+      "unit": "",
+      "value_example": "130.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0252",
+      "name": "tU>>>",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "025F",
+      "name": "Hysteresis",
+      "unit": "",
+      "value_example": "0.98",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0260",
+      "name": "Function Vo>",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0261",
+      "name": "Vo>",
+      "unit": "",
+      "value_example": "5.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0262",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT DMT IDMT",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0265",
+      "name": "tVo>",
+      "unit": "",
+      "value_example": "0.04s   0263 TMS: 1.0",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0264",
+      "name": "tReset Vo>",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0270",
+      "name": "Function Vo>>",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0271",
+      "name": "Vo>>",
+      "unit": "",
+      "value_example": "5.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0272",
+      "name": "tVo>>",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0280",
+      "name": "Function Vo>>>",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0281",
+      "name": "Vo>>>",
+      "unit": "",
+      "value_example": "5.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0282",
+      "name": "tVo>>>",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0290",
+      "name": "Function V2>",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0291",
+      "name": "V2>",
+      "unit": "",
+      "value_example": "130.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0292",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT DMT IDMT",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0295",
+      "name": "tV2>",
+      "unit": "",
+      "value_example": "0.04s  0293: TMS: 1.0",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0294",
+      "name": "tReset V2>",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02A0",
+      "name": "Function V2>>",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02A1",
+      "name": "V2>>",
+      "unit": "",
+      "value_example": "130.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02A2",
+      "name": "tV2>>",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02B0",
+      "name": "Function V1<",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02B1",
+      "name": "V1<",
+      "unit": "",
+      "value_example": "5.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02B2",
+      "name": "Delay Type",
+      "unit": "",
+      "value_example": "DMT DMT IDMT",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02B5",
+      "name": "tV1<",
+      "unit": "",
+      "value_example": "0.04s 02B3: TMS: 1.0",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02B4",
+      "name": "tReset V1<",
+      "unit": "",
+      "value_example": "0.01s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02C0",
+      "name": "Function V1<<",
+      "unit": "",
+      "value_example": "Yes Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02C1",
+      "name": "V1<<",
+      "unit": "",
+      "value_example": "5.0V",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02C2",
+      "name": "tV1<<",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D0",
+      "name": "Function f1",
+      "unit": "",
+      "value_example": "81<",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D1",
+      "name": "f1",
+      "unit": "",
+      "value_example": "60.00Hz",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D2",
+      "name": "tf1",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D3",
+      "name": "Function f2",
+      "unit": "",
+      "value_example": "81>",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D4",
+      "name": "f2",
+      "unit": "",
+      "value_example": "60.00Hz",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D5",
+      "name": "tf2",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D6",
+      "name": "Function f3",
+      "unit": "",
+      "value_example": "81<",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D7",
+      "name": "f3",
+      "unit": "",
+      "value_example": "60.00Hz",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D8",
+      "name": "tf3",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02D9",
+      "name": "Function f4",
+      "unit": "",
+      "value_example": "81>",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02DA",
+      "name": "f4",
+      "unit": "",
+      "value_example": "60.00Hz",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02DB",
+      "name": "tf4",
+      "unit": "",
+      "value_example": "0.04s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02DC",
+      "name": "Function f5",
+      "unit": "",
+      "value_example": "No No / 81< / 81>",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "02DF",
+      "name": "Function f6",
+      "unit": "",
+      "value_example": "No No / 81< / 81>",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0300",
+      "name": "Function U<",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0310",
+      "name": "Function U<<",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0320",
+      "name": "Function U<<<",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0330",
+      "name": "Function U>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0340",
+      "name": "Function U>>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0350",
+      "name": "Function U>>>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0360",
+      "name": "Function Vo>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0370",
+      "name": "Function Vo>>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0380",
+      "name": "Function Vo>>>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "0390",
+      "name": "Function V2>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03A0",
+      "name": "Function V2>>",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03B0",
+      "name": "Function V1<",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03C0",
+      "name": "Function V1<<",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03D0",
+      "name": "Function f1",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03D3",
+      "name": "Function f2",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03D6",
+      "name": "Function f3",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03D9",
+      "name": "Function f4",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03DC",
+      "name": "Function f5",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "03DF",
+      "name": "Function f6",
+      "unit": "",
+      "value_example": "No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "01E5",
+      "name": "CB open S`vision",
+      "unit": "S",
+      "value_example": "Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "01E6",
+      "name": "Cb Open Time",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "01E7",
+      "name": "CB Close S`vision",
+      "unit": "S",
+      "value_example": "Yes  Yes / No",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "01E8",
+      "name": "Cb Close Time",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "01EB",
+      "name": "Close Pulse Time",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    },
+    {
+      "code": "01EA",
+      "name": "Trip Pulse Time",
+      "unit": "",
+      "value_example": "0.10s",
+      "model": "MICON",
+      "sheet": "MICON P922"
+    }
+  ],
+  "SEPAM": [
+    {
+      "code": "I_NOMINAL",
+      "name": "i_nominal",
+      "unit": "",
+      "value_example": "600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "I_BASE",
+      "name": "i_base",
+      "unit": "",
+      "value_example": "240",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_NOMINAL_RESIDUEL",
+      "name": "courant_nominal_residuel",
+      "unit": "",
+      "value_example": "200",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TENSION_PRIMAIRE_NOMINALE",
+      "name": "tension_primaire_nominale",
+      "unit": "",
+      "value_example": "13800",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TENSION_SECONDAIRE_NOMINALE",
+      "name": "tension_secondaire_nominale",
+      "unit": "",
+      "value_example": "2",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "APPLICATION",
+      "name": "application",
+      "unit": "",
+      "value_example": "S40",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_1",
+      "name": "commande_disjoncteur_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_1",
+      "name": "activite_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1",
+      "name": "tempo_declenchement_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "VS0_1",
+      "name": "Vs0_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0",
+      "name": "tempo_declenchement_0",
+      "unit": "",
+      "value_example": "29900",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "VS0_0",
+      "name": "Vs0_0",
+      "unit": "",
+      "value_example": "4",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_1",
+      "name": "accrochage_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_1",
+      "name": "commande_disjoncteur_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_1",
+      "name": "activite_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1",
+      "name": "tempo_declenchement_1",
+      "unit": "",
+      "value_example": "500",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "VS0_1",
+      "name": "Vs0_1",
+      "unit": "",
+      "value_example": "115",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_V_1",
+      "name": "Mode_V_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0",
+      "name": "tempo_declenchement_0",
+      "unit": "",
+      "value_example": "500",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "VS0_0",
+      "name": "Vs0_0",
+      "unit": "",
+      "value_example": "115",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_V_0",
+      "name": "Mode_V_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_1",
+      "name": "accrochage_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_1",
+      "name": "commande_disjoncteur_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_1",
+      "name": "activite_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1",
+      "name": "tempo_declenchement_1",
+      "unit": "",
+      "value_example": "100",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "VS0_1",
+      "name": "Vs0_1",
+      "unit": "",
+      "value_example": "70",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_V_1",
+      "name": "Mode_V_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0",
+      "name": "tempo_declenchement_0",
+      "unit": "",
+      "value_example": "100",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "VS0_0",
+      "name": "Vs0_0",
+      "unit": "",
+      "value_example": "70",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_V_0",
+      "name": "Mode_V_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TENSION_SEUIL_0",
+      "name": "tension_seuil_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0",
+      "name": "tempo_declenchement_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_H_1",
+      "name": "accrochage_H_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_H_1",
+      "name": "commande_disjoncteur_H_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_H_1",
+      "name": "activite_H_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "FREQUENCE_SEUIL_H_1",
+      "name": "frequence_seuil_H_1",
+      "unit": "",
+      "value_example": "600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_H_1",
+      "name": "tempo_declenchement_H_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H_1",
+      "name": "retenue_H_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "FREQUENCE_SEUILVS_H_1",
+      "name": "frequence_seuilVS_H_1",
+      "unit": "",
+      "value_example": "20",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "SEUILINHIBITIONVARFREQ_H_1",
+      "name": "SeuilInhibitionVarFreq_H_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_H_0",
+      "name": "accrochage_H_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_H_0",
+      "name": "commande_disjoncteur_H_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_H_0",
+      "name": "activite_H_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "FREQUENCE_SEUIL_H_0",
+      "name": "frequence_seuil_H_0",
+      "unit": "",
+      "value_example": "600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_H_0",
+      "name": "tempo_declenchement_H_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H_0",
+      "name": "retenue_H_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "FREQUENCE_SEUILVS_H_0",
+      "name": "frequence_seuilVS_H_0",
+      "unit": "",
+      "value_example": "20",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "SEUILINHIBITIONVARFREQ_H_0",
+      "name": "SeuilInhibitionVarFreq_H_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_1",
+      "name": "accrochage_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_1",
+      "name": "commande_disjoncteur_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_1",
+      "name": "activite_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_1",
+      "name": "courbe_declenchement_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_1",
+      "name": "courant_seuil_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1",
+      "name": "tempo_declenchement_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_0",
+      "name": "courbe_declenchement_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_0",
+      "name": "courant_seuil_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0",
+      "name": "tempo_declenchement_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_2",
+      "name": "accrochage_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_2",
+      "name": "commande_disjoncteur_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_2",
+      "name": "activite_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_CALCUL_IRESIDUEL_2",
+      "name": "mode_Calcul_IResiduel_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_2_1",
+      "name": "courbe_declenchement_2_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_2_1",
+      "name": "courant_seuil_2_1",
+      "unit": "",
+      "value_example": "3000",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_2_1",
+      "name": "courbe_retour_2_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_2_1",
+      "name": "tempo_declenchement_2_1",
+      "unit": "",
+      "value_example": "30",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_2_1",
+      "name": "temps_retour_2_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H2_2_1",
+      "name": "retenue_H2_2_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_2_0",
+      "name": "courbe_declenchement_2_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_2_0",
+      "name": "courant_seuil_2_0",
+      "unit": "",
+      "value_example": "1250",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_2_0",
+      "name": "courbe_retour_2_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_2_0",
+      "name": "tempo_declenchement_2_0",
+      "unit": "",
+      "value_example": "30",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_2_0",
+      "name": "temps_retour_2_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H2_2_0",
+      "name": "retenue_H2_2_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_1",
+      "name": "accrochage_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_1",
+      "name": "commande_disjoncteur_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_1",
+      "name": "activite_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_CALCUL_IRESIDUEL_1",
+      "name": "mode_Calcul_IResiduel_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_1_1",
+      "name": "courbe_declenchement_1_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_1_1",
+      "name": "courant_seuil_1_1",
+      "unit": "",
+      "value_example": "200",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_1_1",
+      "name": "courbe_retour_1_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1_1",
+      "name": "tempo_declenchement_1_1",
+      "unit": "",
+      "value_example": "30",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_1_1",
+      "name": "temps_retour_1_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H2_1_1",
+      "name": "retenue_H2_1_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_1_0",
+      "name": "courbe_declenchement_1_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_1_0",
+      "name": "courant_seuil_1_0",
+      "unit": "",
+      "value_example": "1250",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_1_0",
+      "name": "courbe_retour_1_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1_0",
+      "name": "tempo_declenchement_1_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_1_0",
+      "name": "temps_retour_1_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H2_1_0",
+      "name": "retenue_H2_1_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "MODE_CALCUL_IRESIDUEL_0",
+      "name": "mode_Calcul_IResiduel_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_0_1",
+      "name": "courbe_declenchement_0_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_0_1",
+      "name": "courant_seuil_0_1",
+      "unit": "",
+      "value_example": "3000",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_0_1",
+      "name": "courbe_retour_0_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0_1",
+      "name": "tempo_declenchement_0_1",
+      "unit": "",
+      "value_example": "30",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_0_1",
+      "name": "temps_retour_0_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H2_0_1",
+      "name": "retenue_H2_0_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_0_0",
+      "name": "courbe_declenchement_0_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_0_0",
+      "name": "courant_seuil_0_0",
+      "unit": "",
+      "value_example": "1250",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_0_0",
+      "name": "courbe_retour_0_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0_0",
+      "name": "tempo_declenchement_0_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_0_0",
+      "name": "temps_retour_0_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "RETENUE_H2_0_0",
+      "name": "retenue_H2_0_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_3",
+      "name": "accrochage_3",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_3",
+      "name": "commande_disjoncteur_3",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_3",
+      "name": "activite_3",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "CONFIRMATION_3",
+      "name": "confirmation_3",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_3_1",
+      "name": "courbe_declenchement_3_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_3_1",
+      "name": "courant_seuil_3_1",
+      "unit": "",
+      "value_example": "12600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_3_1",
+      "name": "courbe_retour_3_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_3_1",
+      "name": "tempo_declenchement_3_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_3_1",
+      "name": "temps_retour_3_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_3_0",
+      "name": "courbe_declenchement_3_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_3_0",
+      "name": "courant_seuil_3_0",
+      "unit": "",
+      "value_example": "1140",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_3_0",
+      "name": "courbe_retour_3_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_3_0",
+      "name": "tempo_declenchement_3_0",
+      "unit": "",
+      "value_example": "60",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_3_0",
+      "name": "temps_retour_3_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_2",
+      "name": "accrochage_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_2",
+      "name": "commande_disjoncteur_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_2",
+      "name": "activite_2",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "CONFIRMATION_2",
+      "name": "confirmation_2",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_2_1",
+      "name": "courbe_declenchement_2_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_2_1",
+      "name": "courant_seuil_2_1",
+      "unit": "",
+      "value_example": "12600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_2_1",
+      "name": "courbe_retour_2_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_2_1",
+      "name": "tempo_declenchement_2_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_2_1",
+      "name": "temps_retour_2_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_2_0",
+      "name": "courbe_declenchement_2_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_2_0",
+      "name": "courant_seuil_2_0",
+      "unit": "",
+      "value_example": "12000",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_2_0",
+      "name": "courbe_retour_2_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_2_0",
+      "name": "tempo_declenchement_2_0",
+      "unit": "",
+      "value_example": "30",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_2_0",
+      "name": "temps_retour_2_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_1",
+      "name": "accrochage_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_1",
+      "name": "commande_disjoncteur_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_1",
+      "name": "activite_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "CONFIRMATION_1",
+      "name": "confirmation_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_1_1",
+      "name": "courbe_declenchement_1_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_1_1",
+      "name": "courant_seuil_1_1",
+      "unit": "",
+      "value_example": "12600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_1_1",
+      "name": "courbe_retour_1_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1_1",
+      "name": "tempo_declenchement_1_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_1_1",
+      "name": "temps_retour_1_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_1_0",
+      "name": "courbe_declenchement_1_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_1_0",
+      "name": "courant_seuil_1_0",
+      "unit": "",
+      "value_example": "12000",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_1_0",
+      "name": "courbe_retour_1_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_1_0",
+      "name": "tempo_declenchement_1_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_1_0",
+      "name": "temps_retour_1_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACCROCHAGE_0",
+      "name": "accrochage_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COMMANDE_DISJONCTEUR_0",
+      "name": "commande_disjoncteur_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "ACTIVITE_0",
+      "name": "activite_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "CONFIRMATION_0",
+      "name": "confirmation_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_0_1",
+      "name": "courbe_declenchement_0_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_0_1",
+      "name": "courant_seuil_0_1",
+      "unit": "",
+      "value_example": "12600",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_0_1",
+      "name": "courbe_retour_0_1",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0_1",
+      "name": "tempo_declenchement_0_1",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_0_1",
+      "name": "temps_retour_0_1",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_DECLENCHEMENT_0_0",
+      "name": "courbe_declenchement_0_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURANT_SEUIL_0_0",
+      "name": "courant_seuil_0_0",
+      "unit": "",
+      "value_example": "12000",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "COURBE_RETOUR_0_0",
+      "name": "courbe_retour_0_0",
+      "unit": "",
+      "value_example": "1",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPO_DECLENCHEMENT_0_0",
+      "name": "tempo_declenchement_0_0",
+      "unit": "",
+      "value_example": "10",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    },
+    {
+      "code": "TEMPS_RETOUR_0_0",
+      "name": "temps_retour_0_0",
+      "unit": "",
+      "value_example": "0",
+      "model": "SEPAM",
+      "sheet": "SEPAM S40"
+    }
+  ]
+}
