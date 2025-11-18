@@ -1,0 +1,19 @@
+# Diretórios e arquivos a serem ignorados pelo Git
+# ------------------------------------------------
+
+# Pastas locais e temporárias
+documentacao/
+temp/
+logs/
+
+# Arquivos de log
+*.log
+
+# Diretórios de build, cache e IDEs (recomendado)
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/
+.env
+.venv/
