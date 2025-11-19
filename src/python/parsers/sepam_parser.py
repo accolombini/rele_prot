@@ -27,6 +27,10 @@ class SepamParser:
         # Parse filename for metadata
         filename_metadata = self._parse_filename(path.name)
         
+        # Extract all parameters with validation
+        all_parameters = self.extractor.extract_all_parameters(file_path)
+        validation = self.extractor.validate_extraction(file_path, all_parameters)
+        
         # Combine all data
         parsed_data = {
             'source_file': str(path.absolute()),
@@ -37,6 +41,8 @@ class SepamParser:
             'ct_data': extracted['ct_vt_data']['current_transformers'],
             'vt_data': extracted['ct_vt_data']['voltage_transformers'],
             'protection_functions': extracted['protection_functions'],
+            'all_parameters': all_parameters,
+            'validation': validation,
             'raw_extracted': extracted
         }
         

@@ -51,6 +51,8 @@ class SchneiderParser:
             'ct_data': extracted['ct_vt_data']['current_transformers'],
             'vt_data': extracted['ct_vt_data']['voltage_transformers'],
             'protection_functions': self._parse_protection_functions(extracted['protection_functions'], relay_type),
+            'all_parameters': extracted.get('all_parameters', []),
+            'validation': extracted.get('validation', {}),
             'raw_extracted': extracted
         }
         

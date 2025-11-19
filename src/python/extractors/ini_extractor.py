@@ -225,3 +225,107 @@ class IniExtractor:
                 return repere.split()[0] if repere else None
         
         return None
+    
+    def extract_all_parameters(self, ini_path: str) -> List[Dict[str, Any]]:
+        """
+        Extract ALL parameters from INI file including multi-line blocks
+        Returns list of parameter dicts with section, key, value, and continuation lines
+        """
+        parameters = []
+        
+        # Read raw file to preserve multi-line values
+        with open(ini_path, 'r', encoding='utf-8', errors='ignore') as f:
+            raw_content = f.read()
+        
+        # Also parse with ConfigParser for structured access
+        config = configparser.ConfigParser()
+        try:
+            config.read(ini_path, encoding='utf-8')
+        except UnicodeDecodeError:
+            config.read(ini_path, encoding='latin-1')
+        
+        current_section = None
+        line_num = 0
+        
+        for line in raw_content.split('\n'):
+            line_num += 1
+            stripped = line.strip()
+            
+            # Skip empty lines and comments
+            if not stripped or stripped.startswith(';') or stripped.startswith('#'):
+                continue
+            
+            # Section header
+            if stripped.startswith('[') and stripped.endswith(']'):
+                current_section = stripped[1:-1]
+                continue
+            
+            # Key-value pairs
+            if current_section and '=' in stripped:
+                key, _, value = stripped.partition('=')
+                key = key.strip()
+                value = value.strip()
+                
+                # Special handling for [Matrice] section - multi-line blocks
+                if current_section == 'Matrice':
+                    # Matrice entries are like: Trip RL2 = {multi-line list}
+                    # or: LED1 = {multi-line list}
+                    parameters.append({
+                        'section': current_section,
+                        'key': key,
+                        'value': value,
+                        'line_number': line_num,
+                        'is_multiline_block': True if 'Trip RL' in key or 'LED' in key else False
+                    })
+                else:
+                    parameters.append({
+                        'section': current_section,
+                        'key': key,
+                        'value': value,
+                        'line_number': line_num,
+                        'is_multiline_block': False
+                    })
+        
+        return parameters
+    
+    def validate_extraction(self, ini_path: str, parameters: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Validate extraction completeness
+        Returns validation metrics including completeness score and warnings
+        """
+        # Count lines in original file
+        with open(ini_path, 'r', encoding='utf-8', errors='ignore') as f:
+            total_lines = len(f.readlines())
+        
+        # Count non-empty, non-comment lines
+        with open(ini_path, 'r', encoding='utf-8', errors='ignore') as f:
+            useful_lines = sum(1 for line in f if line.strip() 
+                             and not line.strip().startswith(';') 
+                             and not line.strip().startswith('#')
+                             and not line.strip().startswith('['))
+        
+        extracted_count = len(parameters)
+        
+        # Calculate completeness score
+        completeness_score = (extracted_count / useful_lines * 100) if useful_lines > 0 else 0
+        
+        # Generate warnings
+        warnings = []
+        if completeness_score < 95:
+            warnings.append(f"Baixa cobertura: {completeness_score:.1f}% ({extracted_count}/{useful_lines} parâmetros)")
+        
+        # Check for missing critical sections
+        sections_found = set(p['section'] for p in parameters)
+        critical_sections = ['Sepam_Caracteristiques', 'Sepam_ConfigMaterielle', 'Matrice']
+        missing_sections = [s for s in critical_sections if s not in sections_found]
+        if missing_sections:
+            warnings.append(f"Seções críticas ausentes: {', '.join(missing_sections)}")
+        
+        return {
+            'total_lines': total_lines,
+            'useful_lines': useful_lines,
+            'extracted_parameters': extracted_count,
+            'completeness_score': completeness_score,
+            'warnings': warnings,
+            'sections_found': list(sections_found)
+        }

@@ -224,14 +224,161 @@ class PdfExtractor:
         
         return functions
     
+    def extract_all_parameters(self, text: str) -> List[Dict[str, Any]]:
+        """
+        Extract ALL parameters from PDF with support for multi-line values
+        
+        Captures:
+        - Standard: "0120: Line CT primary: 1500"
+        - With ?: "018A: CB Fail ?: Yes"
+        - With =: "0201: I>: 0.63In" or "0201: I> = 0.63In"
+        - Multi-line: "0171: Trip: RL2" + continuation lines
+        - No code continuation: Lines without code that belong to previous param
+        
+        Returns list of dicts with: code, parameter, value, continuation_lines
+        """
+        parameters = []
+        lines = text.split('\n')
+        
+        # Multiple patterns to capture different formats
+        # Pattern 1: "CODE: Parameter: Value" or "CODE: Parameter ?: Value"
+        param_pattern1 = re.compile(r'^(\d{4}):\s*(.+?)(?:\s*\?)?:\s*(.+)$')
+        # Pattern 2: "CODE: Parameter = Value" or "CODE: Parameter=Value"
+        param_pattern2 = re.compile(r'^(\d{4}):\s*(.+?)\s*=\s*(.+)$')
+        # Pattern 3: "CODE: Parameter" (value on next line or just parameter name)
+        param_pattern3 = re.compile(r'^(\d{4}):\s*(.+)$')
+        
+        current_param = None
+        continuation_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Try to match a parameter line with code (try patterns in order)
+            match = param_pattern1.match(line) or param_pattern2.match(line)
+            
+            if match:
+                # Save previous parameter if exists
+                if current_param:
+                    current_param['continuation_lines'] = continuation_lines
+                    parameters.append(current_param)
+                    continuation_lines = []
+                
+                # Start new parameter
+                code = match.group(1)
+                param_name = match.group(2).strip()
+                value = match.group(3).strip()
+                
+                current_param = {
+                    'code': code,
+                    'parameter': param_name,
+                    'value': value,
+                    'continuation_lines': []
+                }
+            
+            elif param_pattern3.match(line):
+                # Pattern 3: code exists but no clear value separator
+                match3 = param_pattern3.match(line)
+                
+                # Save previous parameter if exists
+                if current_param:
+                    current_param['continuation_lines'] = continuation_lines
+                    parameters.append(current_param)
+                    continuation_lines = []
+                
+                # This might be a parameter name only, value might follow
+                code = match3.group(1)
+                content = match3.group(2).strip()
+                
+                current_param = {
+                    'code': code,
+                    'parameter': content,
+                    'value': '',  # No clear value yet
+                    'continuation_lines': []
+                }
+            
+            elif current_param:
+                # Line without code - treat as continuation of previous parameter
+                # Skip common headers and footers
+                if not any(skip in line.lower() for skip in 
+                          ['easergy studio', 'settings file', 'page:', 'micom']):
+                    continuation_lines.append(line)
+        
+        # Don't forget last parameter
+        if current_param:
+            current_param['continuation_lines'] = continuation_lines
+            parameters.append(current_param)
+        
+        return parameters
+    
+    def validate_extraction(self, parameters: List[Dict[str, Any]], 
+                          ct_vt_data: Dict[str, List], 
+                          protection_functions: List[Dict]) -> Dict[str, Any]:
+        """
+        Validate extraction completeness
+        
+        Returns:
+            Dict with validation metrics and warnings
+        """
+        validation = {
+            'total_parameters': len(parameters),
+            'ct_count': len(ct_vt_data.get('current_transformers', [])),
+            'vt_count': len(ct_vt_data.get('voltage_transformers', [])),
+            'protection_functions': len(protection_functions),
+            'enabled_functions': len([f for f in protection_functions if f.get('is_enabled')]),
+            'completeness_score': 0.0,
+            'warnings': []
+        }
+        
+        # Check for expected sections
+        codes_found = {p['code'][:2] for p in parameters}
+        
+        expected_sections = {
+            '01': 'Configuration/General',
+            '02': 'Protection Functions',
+            '01': 'CT/VT Ratios',
+            '01': 'Outputs/LEDs'
+        }
+        
+        # Calculate completeness
+        if validation['total_parameters'] > 0:
+            validation['completeness_score'] = min(100.0, 
+                (validation['total_parameters'] / 400) * 100)
+        
+        # Add warnings
+        if validation['ct_count'] == 0 and validation['vt_count'] == 0:
+            validation['warnings'].append('No CT or VT data extracted')
+        
+        if validation['enabled_functions'] == 0:
+            validation['warnings'].append('No enabled protection functions found')
+        
+        if validation['total_parameters'] < 300:
+            validation['warnings'].append(
+                f'Low parameter count ({validation["total_parameters"]}) - expected ~400-450'
+            )
+        
+        return validation
+    
     def extract_all(self, pdf_path: str) -> Dict[str, Any]:
         """Extract all data from PDF"""
         text = self.extract_text(pdf_path)
         
+        # Extract structured data
+        ct_vt_data = self.extract_ct_vt_data(text)
+        protection_functions = self.extract_protection_functions(text)
+        all_parameters = self.extract_all_parameters(text)
+        
+        # Validate extraction
+        validation = self.validate_extraction(all_parameters, ct_vt_data, protection_functions)
+        
         return {
             'manufacturer': self.detect_manufacturer(pdf_path),
             'model_info': self.extract_model_info(text),
-            'ct_vt_data': self.extract_ct_vt_data(text),
-            'protection_functions': self.extract_protection_functions(text),
+            'ct_vt_data': ct_vt_data,
+            'protection_functions': protection_functions,
+            'all_parameters': all_parameters,
+            'validation': validation,
             'raw_text': text
         }

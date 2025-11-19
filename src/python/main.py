@@ -20,8 +20,8 @@ from src.python.database.repository import DatabaseRepository
 from src.python.parsers.micon_parser import MiconParser
 from src.python.parsers.schneider_parser import SchneiderParser
 from src.python.parsers.sepam_parser import SepamParser
-from src.python.exporters.csv_exporter import CsvExporter
 from src.python.exporters.excel_exporter import ExcelExporter
+from src.python.exporters.full_parameters_exporter import FullParametersExporter
 
 
 class ProtecAIPipeline:
@@ -55,7 +55,7 @@ class ProtecAIPipeline:
         self.output_excel_dir = project_root / 'outputs' / 'excel'
         
         # Initialize exporters
-        self.csv_exporter = CsvExporter(
+        self.csv_exporter = FullParametersExporter(
             output_dir=str(self.output_csv_dir),
             logger=self.logger
         )
@@ -196,11 +196,11 @@ class ProtecAIPipeline:
         try:
             self.logger.info(f"  → Exporting data...")
             
-            # Export to CSV (consolidated)
+            # Export to CSV (full parameters format - audited)
             try:
-                csv_file = self.csv_exporter.export_relay_data(parsed_data, base_filename)
+                csv_file = self.csv_exporter.export_full_parameters(parsed_data, base_filename)
                 self.stats['exported_csv'] += 1
-                self.logger.info(f"    ✓ CSV export: 1 consolidated file")
+                self.logger.info(f"    ✓ CSV export: complete parameters")
             except Exception as e:
                 self.logger.error(f"    ✗ CSV export failed: {str(e)}")
                 return False
