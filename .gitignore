@@ -9,6 +9,18 @@ logs/
 # Arquivos de log
 *.log
 
+# Outputs gerados pela pipeline (CSVs e Excel)
+outputs/csv/*.csv
+outputs/excel/*.xlsx
+outputs/norm_csv/
+outputs/norm_excel/
+
+# Registros de processamento (arquivos temporários/estado)
+inputs/registry/processed_files.json
+inputs/registry/processed_files_old.json
+inputs/registry/processed_files_backup_*.json
+inputs/registry/*.bak
+
 # Diretórios de build, cache e IDEs (recomendado)
 __pycache__/
 *.pyc
@@ -17,3 +29,23 @@ __pycache__/
 .idea/
 .env
 .venv/
+
+# Python virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pytest cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
