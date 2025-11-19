@@ -41,6 +41,10 @@ alembic==1.12.1
 pydantic==2.5.1
 pydantic-settings==2.1.0
 
+# Gerenciamento de configuração
+python-dotenv==1.0.0
+configparser==6.0.0
+
 # Segurança
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
