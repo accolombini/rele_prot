@@ -14,8 +14,10 @@ class NormalizedCsvExporter:
     # Headers para cada tabela 3FN
     RELAY_INFO_HEADERS = [
         'relay_id', 'source_file', 'manufacturer', 'model',
-        'barras_identificador', 'config_date', 'frequency_hz',
-        'software_version', 'processed_at'
+        'barras_identificador', 'subestacao_codigo', 'voltage_class_kv',
+        'relay_type', 'config_date', 'frequency_hz', 'software_version',
+        'vt_defined', 'vt_enabled', 'voltage_source', 'voltage_confidence',
+        'processed_at'
     ]
     
     CT_DATA_HEADERS = [

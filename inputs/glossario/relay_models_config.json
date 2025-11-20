@@ -1,4 +1,27 @@
 {
+  "relay_types": {
+    "P122": "Proteção de Alimentador",
+    "P123": "Proteção de Alimentador",
+    "P120": "Proteção de Alimentador",
+    "P220": "Proteção de Motor",
+    "P241": "Proteção de Alimentador",
+    "P242": "Proteção de Alimentador",
+    "P243": "Proteção de Alimentador",
+    "P143": "Proteção de Alimentador",
+    "P922": "Proteção de Transformador",
+    "P923": "Proteção de Transformador",
+    "S40": "Proteção de Linha",
+    "S80": "Proteção de Transformador",
+    "S20": "Proteção de Motor",
+    "F650": "Proteção de Alimentador",
+    "F60": "Proteção de Alimentador",
+    "D60": "Proteção de Linha",
+    "T60": "Proteção de Transformador",
+    "M60": "Proteção de Motor",
+    "SEL351": "Proteção de Alimentador",
+    "SEL387": "Proteção Diferencial",
+    "SEL421": "Proteção de Linha"
+  },
   "models": {
     "MICON_P122_52": {
       "detection_method": "checkbox",
@@ -217,12 +240,7 @@
           "description": "Sequência Negativa"
         }
       },
-      "groups": [
-        "GROUP 1",
-        "GROUP 2",
-        "GROUP 3",
-        "GROUP 4"
-      ]
+      "groups": ["GROUP 1", "GROUP 2", "GROUP 3", "GROUP 4"]
     },
     "SEPAM_S40": {
       "detection_method": "activite_field",

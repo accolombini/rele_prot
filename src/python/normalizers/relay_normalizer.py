@@ -4,10 +4,12 @@ Normaliza dados completos do relé para formato 3FN
 """
 
 import csv
+import re
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from .base_normalizer import BaseNormalizer
 from .unit_converter import UnitConverter
+from ..utils.glossary_loader import GlossaryLoader
 
 
 class RelayNormalizer(BaseNormalizer):
@@ -17,6 +19,10 @@ class RelayNormalizer(BaseNormalizer):
         super().__init__(logger)
         self.converter = UnitConverter()
         self.relay_counter = 0
+        # Load glossary for relay type mapping
+        # Path: src/python/normalizers/ -> src/python/ -> src/ -> root/
+        glossary_path = Path(__file__).parent.parent.parent.parent / 'inputs' / 'glossario'
+        self.glossary = GlossaryLoader(str(glossary_path))
     
     def normalize_from_csv(self, csv_path: str) -> Dict[str, Any]:
         """
@@ -104,20 +110,179 @@ class RelayNormalizer(BaseNormalizer):
         return sections
     
     def _normalize_relay_info(self, sections: Dict, relay_id: str, filename: str) -> Dict[str, Any]:
-        """Normalize relay information"""
+        """Normalize relay information with enhanced metadata"""
         metadata = sections.get('metadata', {})
+        parameters = sections.get('parameters', [])
+        
+        # Extract base info
+        manufacturer = metadata.get('manufacturer', '')
+        model = metadata.get('model', '')
+        barras = metadata.get('barras', '')
+        
+        # Parse filename for additional metadata
+        filename_meta = self._parse_filename(filename)
+        
+        # Extract metadata from parameters
+        param_meta = self._extract_metadata_from_parameters(parameters)
+        
+        # Get relay type from glossary
+        relay_type = self.glossary.get_relay_type(model)
+        if relay_type == 'Tipo Desconhecido':
+            self.log_warning(f"Modelo não mapeado: {model} - Adicione em relay_models_config.json")
+        
+        # Determine subestacao_codigo (priority: param > filename > None)
+        subestacao_codigo = (param_meta.get('substation_code') or 
+                            filename_meta.get('subestacao') or 
+                            None)
+        
+        # Determine voltage_class_kv from VT primary
+        voltage_class_kv = None
+        vt_defined = False
+        vt_enabled = None
+        
+        vt_primary = param_meta.get('vt_primary_v')
+        if vt_primary:
+            vt_defined = True
+            voltage_class_kv = round(vt_primary / 1000.0, 2)  # V → kV
+            vt_enabled = param_meta.get('vt_enabled')
         
         return {
             'relay_id': relay_id,
             'source_file': filename,
-            'manufacturer': metadata.get('manufacturer', ''),
-            'model': metadata.get('model', ''),
-            'barras_identificador': metadata.get('barras', ''),
-            'config_date': None,  # TODO: Extract from parameters
-            'frequency_hz': None,  # TODO: Extract from parameters
-            'software_version': None,  # TODO: Extract from parameters
+            'manufacturer': manufacturer,
+            'model': model,
+            'barras_identificador': barras or filename_meta.get('barras'),
+            'subestacao_codigo': subestacao_codigo,
+            'voltage_class_kv': voltage_class_kv,
+            'relay_type': relay_type,
+            'config_date': filename_meta.get('config_date'),
+            'frequency_hz': param_meta.get('frequency_hz'),
+            'software_version': param_meta.get('software_version'),
+            'vt_defined': vt_defined,
+            'vt_enabled': vt_enabled,
+            'voltage_source': 'doc' if vt_defined else None,
+            'voltage_confidence': 1.0 if vt_defined else None,
             'processed_at': self.get_timestamp()
         }
+    
+    def _parse_filename(self, filename: str) -> Dict[str, Optional[str]]:
+        """
+        Parse filename for metadata
+        Supports formats:
+        - P122_52-MF-03B1_2021-03-17.csv (PDF Schneider)
+        - P_122 52-MF-03B1_2021-03-17.csv (com espaço)
+        - 00-MF-12_2016-03-31.csv (SEPAM)
+        """
+        metadata = {
+            'modelo': None,
+            'elemento': None,
+            'subestacao': None,
+            'barras': None,
+            'config_date': None
+        }
+        
+        # Remove extension
+        name = Path(filename).stem
+        
+        # Regex robusta para PDFs Schneider/GE
+        pattern_pdf = re.compile(
+            r'^(?P<modelo>P_?\d{3})'           # P122 ou P_122
+            r'[ _]+'                            # Espaço ou underscore
+            r'(?P<elemento>\d{2})'              # 52 (ANSI)
+            r'-'
+            r'(?P<subestacao>[A-Z]{2})'        # MF, MK
+            r'-'
+            r'(?P<barras>[0-9A-Z]{3,4})'       # 03B1, 01BC
+            r'(?:_(?P<data>\d{4}-\d{2}-\d{2}))?' # Data opcional
+        , re.IGNORECASE)
+        
+        # Regex para SEPAM
+        pattern_sepam = re.compile(
+            r'^(?P<elemento>\d{2})'             # 00
+            r'-'
+            r'(?P<subestacao>[A-Z]{2})'        # MF
+            r'-'
+            r'(?P<barras>\d{2})'                # 12
+            r'(?:_(?P<data>\d{4}-\d{2}-\d{2}))?' # Data opcional
+        , re.IGNORECASE)
+        
+        # Try PDF pattern
+        match = pattern_pdf.match(name)
+        if match:
+            metadata['modelo'] = match.group('modelo').replace('_', '')  # P_122 → P122
+            metadata['elemento'] = match.group('elemento')
+            metadata['subestacao'] = match.group('subestacao')
+            metadata['barras'] = match.group('barras')
+            if match.group('data'):
+                metadata['config_date'] = match.group('data')
+            return metadata
+        
+        # Try SEPAM pattern
+        match = pattern_sepam.match(name)
+        if match:
+            metadata['elemento'] = match.group('elemento')
+            metadata['subestacao'] = match.group('subestacao')
+            metadata['barras'] = match.group('barras')
+            if match.group('data'):
+                metadata['config_date'] = match.group('data')
+            return metadata
+        
+        # No match - log warning
+        self.log_warning(f"Filename não corresponde a padrões conhecidos: {filename}")
+        return metadata
+    
+    def _extract_metadata_from_parameters(self, parameters: List[Dict]) -> Dict[str, Any]:
+        """Extract metadata from parameter list"""
+        meta = {
+            'substation_code': None,
+            'vt_primary_v': None,
+            'vt_enabled': None,
+            'frequency_hz': None,
+            'software_version': None
+        }
+        
+        for param in parameters:
+            param_name = param.get('parameter_or_key', '').lower()
+            value = param.get('value', '')
+            
+            # SUBSTATION_CODE (SEPAM)
+            if 'substation_code' in param_name and value:
+                meta['substation_code'] = value
+            
+            # VT Primary (SEPAM: tension_primaire_nominale)
+            if 'tension_primaire' in param_name or 'vt primary' in param_name:
+                try:
+                    # Extract numeric value
+                    numeric = re.findall(r'\d+(?:\.\d+)?', value)
+                    if numeric:
+                        meta['vt_primary_v'] = float(numeric[0])
+                except:
+                    pass
+            
+            # VT Enabled (SEPAM: EnServiceTP)
+            if 'enservicetp' in param_name or 'vt.*enabled' in param_name:
+                if value in ['1', 'Yes', 'True', 'Enabled']:
+                    meta['vt_enabled'] = True
+                elif value in ['0', 'No', 'False', 'Disabled']:
+                    meta['vt_enabled'] = False
+            
+            # Frequency (SEPAM: frequence_reseau)
+            if 'frequence' in param_name or 'frequency' in param_name:
+                try:
+                    freq_str = re.findall(r'\d+', value)
+                    if freq_str:
+                        freq = int(freq_str[0])
+                        if freq in [50, 60]:
+                            meta['frequency_hz'] = float(freq)
+                except:
+                    pass
+            
+            # Software Version (SEPAM: application)
+            if 'application' in param_name or 'software' in param_name or 'firmware' in param_name:
+                if value and value not in ['0', '1']:
+                    meta['software_version'] = value
+        
+        return meta
     
     def _normalize_cts(self, sections: Dict, relay_id: str) -> List[Dict[str, Any]]:
         """Normalize CT data"""

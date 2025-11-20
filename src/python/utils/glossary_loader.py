@@ -4,6 +4,7 @@ Loads and manages glossary mappings for protection functions
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Dict, Any, Optional
 
@@ -81,3 +82,37 @@ class GlossaryLoader:
             if data.get('ansi_code') == ansi_code:
                 codes.append(code)
         return codes
+    
+    def get_relay_type(self, model: str) -> str:
+        """
+        Get relay type (protection category) from model name
+        Returns 'Tipo Desconhecido' if model not found
+        """
+        # Normalize model name
+        # Remove: underscore, spaces, "SEPAM", "MICON", etc
+        normalized = model.replace('_', '').replace(' ', '').upper()
+        normalized = normalized.replace('SEPAM', '').replace('MICON', '').strip()
+        
+        # Try direct lookup
+        relay_types = self.relay_configs.get('relay_types', {})
+        if normalized in relay_types:
+            return relay_types[normalized]
+        
+        # Try prefix match (P122_52 -> P122, S40_V1 -> S40)
+        for known_model, relay_type in relay_types.items():
+            if normalized.startswith(known_model):
+                return relay_type
+        
+        # Try extracting just the alphanumeric code (SEPAM S40 -> S40)
+        match = re.search(r'([A-Z]\d+)', normalized)
+        if match:
+            code = match.group(1)
+            if code in relay_types:
+                return relay_types[code]
+        
+        # Model not found - return unknown
+        return 'Tipo Desconhecido'
+    
+    def get_all_relay_types(self) -> Dict[str, str]:
+        """Get all relay model to type mappings"""
+        return self.relay_configs.get('relay_types', {})

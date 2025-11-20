@@ -41,7 +41,8 @@ class IniExtractor:
             'frequency': 60.0,  # Default for Brazil
             'model_type': 'SEPAM S40',
             'serial_number': None,
-            'application': None
+            'application': None,
+            'substation_code': None  # NOVO
         }
         
         if 'Sepam_Caracteristiques' in config:
@@ -56,6 +57,10 @@ class IniExtractor:
             if 'frequence_reseau' in carac:
                 freq_code = carac['frequence_reseau']
                 model_info['frequency'] = 60.0 if freq_code == '1' else 50.0
+            
+            # Substation Code (SUBSTATION_CODE)
+            if 'SUBSTATION_CODE' in carac:
+                model_info['substation_code'] = carac['SUBSTATION_CODE']
         
         if 'Sepam_ConfigMaterielle' in config:
             config_mat = config['Sepam_ConfigMaterielle']
@@ -120,24 +125,42 @@ class IniExtractor:
             if 'tension_primaire_nominale' in carac:
                 primary_v = float(carac['tension_primaire_nominale'])
                 
-                # tension_secondaire_nominale is coded:
-                # 0=115V, 1=100V, 2=110V, etc.
+                # Mapeamento SEPAM VT secundário (SFT2841 documentation)
+                # 1=110V, 2=115V, 3=120V, 4=200V, 5=230V, 6=user-defined
                 secondary_v = 115.0  # Default
+                vt_enabled = True  # Default
+                
                 if 'tension_secondaire_nominale' in carac:
                     sec_code = carac['tension_secondaire_nominale']
+                    
+                    # Mapeamento oficial Schneider SFT2841
                     secondary_map = {
-                        '0': 115.0,
-                        '1': 100.0,
-                        '2': 110.0,
-                        '3': 120.0
+                        '1': 110.0,
+                        '2': 115.0,
+                        '3': 120.0,
+                        '4': 200.0,
+                        '5': 230.0
                     }
-                    secondary_v = secondary_map.get(sec_code, 115.0)
+                    
+                    if sec_code == '6':
+                        # User-defined: ler tension_secondaire_nominale_val
+                        if 'tension_secondaire_nominale_val' in carac:
+                            secondary_v = float(carac['tension_secondaire_nominale_val'])
+                        else:
+                            secondary_v = 115.0  # Fallback
+                    else:
+                        secondary_v = secondary_map.get(sec_code, 115.0)
+                
+                # Verificar se VT está habilitado (EnServiceTP)
+                if 'EnServiceTP' in carac:
+                    vt_enabled = (carac['EnServiceTP'] == '1')
                 
                 ct_vt_data['voltage_transformers'].append({
                     'vt_type': 'Main',
                     'primary_rating_v': primary_v,
                     'secondary_rating_v': secondary_v,
-                    'ratio': f"{int(primary_v)}:{int(secondary_v)}"
+                    'ratio': f"{int(primary_v)}:{int(secondary_v)}",
+                    'vt_enabled': vt_enabled  # NOVO
                 })
         
         return ct_vt_data
