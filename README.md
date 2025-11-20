@@ -121,11 +121,16 @@ python src/python/generate_reports.py --all
 - Pipeline integrada (comando único)
 - Sistema de relatórios on-demand
 
-⏳ **Pendências para Amanhã:**
-- Sistema de relatórios completo
-- Interface básica (front-end)
+⏳ **Próximos Passos (21/11/2025):**
+- Sistema de relatórios completo (5 relatórios principais)
+- Interface web básica (Flask + Bootstrap)
 - Teste com 42 novos relés
 - Mapeamento de códigos ANSI
+
+📚 **Documentação Detalhada:**
+- [Plano de Trabalho 21/11](documentacao/PLANO_21NOV2025.md)
+- [Arquitetura Front-end](documentacao/ARQUITETURA_FRONT_END.md)
+- [Sistema de Relatórios](documentacao/SISTEMA_RELATORIOS.md)
 
 ## 📝 Logs
 
