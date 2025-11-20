@@ -230,6 +230,7 @@ class PdfExtractor:
         
         Captures:
         - Standard: "0120: Line CT primary: 1500"
+        - GE Format: "00.01: Language: English"
         - With ?: "018A: CB Fail ?: Yes"
         - With =: "0201: I>: 0.63In" or "0201: I> = 0.63In"
         - Multi-line: "0171: Trip: RL2" + continuation lines
@@ -242,11 +243,12 @@ class PdfExtractor:
         
         # Multiple patterns to capture different formats
         # Pattern 1: "CODE: Parameter: Value" or "CODE: Parameter ?: Value"
-        param_pattern1 = re.compile(r'^(\d{4}):\s*(.+?)(?:\s*\?)?:\s*(.+)$')
+        # Supports: "0120: ..." (4 digits) and "00.01: ..." (GE format)
+        param_pattern1 = re.compile(r'^(\d{2}\.?\d{2}):\s*(.+?)(?:\s*\?)?:\s*(.+)$')
         # Pattern 2: "CODE: Parameter = Value" or "CODE: Parameter=Value"
-        param_pattern2 = re.compile(r'^(\d{4}):\s*(.+?)\s*=\s*(.+)$')
+        param_pattern2 = re.compile(r'^(\d{2}\.?\d{2}):\s*(.+?)\s*=\s*(.+)$')
         # Pattern 3: "CODE: Parameter" (value on next line or just parameter name)
-        param_pattern3 = re.compile(r'^(\d{4}):\s*(.+)$')
+        param_pattern3 = re.compile(r'^(\d{2}\.?\d{2}):\s*(.+)$')
         
         current_param = None
         continuation_lines = []

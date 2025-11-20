@@ -2,9 +2,7 @@
 # ------------------------------------------------
 
 # Pastas locais e temporárias
-documentacao/
 temp/
-logs/
 
 # Arquivos de log
 *.log
@@ -14,6 +12,7 @@ outputs/csv/*.csv
 outputs/excel/*.xlsx
 outputs/norm_csv/
 outputs/norm_excel/
+outputs/relatorios/
 
 # Registros de processamento (arquivos temporários/estado)
 inputs/registry/processed_files.json
