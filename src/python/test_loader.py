@@ -16,7 +16,7 @@ print("=" * 80)
 loader = DatabaseLoader()
 
 try:
-    stats = loader.load_all(force=False)
+    stats = loader.load_all(force=True)
     
     print("\n" + "=" * 80)
     print("ESTATÍSTICAS FINAIS")

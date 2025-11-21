@@ -92,12 +92,15 @@ class PDFReporter(BaseReporter):
         elements.append(title)
         elements.append(Spacer(1, 0.5*cm))
         
-        # Tabela de dados
-        table_data = [df.columns.tolist()] + df.values.tolist()
+        # Tabela de dados - converter para strings e limitar comprimento
+        table_data = [df.columns.tolist()] + [
+            [self._truncate_text(str(val), 80) for val in row] 
+            for row in df.values.tolist()
+        ]
         
-        # Calcular larguras das colunas
+        # Calcular larguras dinâmicas baseadas no conteúdo
         available_width = pagesize[0] - 4*cm
-        col_widths = [available_width / len(df.columns)] * len(df.columns)
+        col_widths = self._calculate_column_widths(df, available_width)
         
         table = Table(table_data, colWidths=col_widths, repeatRows=1)
         
@@ -115,10 +118,14 @@ class PDFReporter(BaseReporter):
             ('BACKGROUND', (0, 1), (-1, -1), colors.white),
             ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
             ('ALIGN', (0, 1), (-1, -1), 'LEFT'),
+            ('VALIGN', (0, 1), (-1, -1), 'TOP'),  # Alinhamento vertical no topo
             ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-            ('FONTSIZE', (0, 1), (-1, -1), 9),
-            ('TOPPADDING', (0, 1), (-1, -1), 6),
-            ('BOTTOMPADDING', (0, 1), (-1, -1), 6),
+            ('FONTSIZE', (0, 1), (-1, -1), 8),  # Reduzido para 8pt
+            ('TOPPADDING', (0, 1), (-1, -1), 4),
+            ('BOTTOMPADDING', (0, 1), (-1, -1), 4),
+            ('LEFTPADDING', (0, 1), (-1, -1), 4),
+            ('RIGHTPADDING', (0, 1), (-1, -1), 4),
+            ('WORDWRAP', (0, 1), (-1, -1), True),  # Quebra de texto automática
             
             # Linhas alternadas
             ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F0F0F0')]),
@@ -266,3 +273,58 @@ class PDFReporter(BaseReporter):
         canvas.drawString(doc.pagesize[0] - 2*cm - text_width, 1.5*cm, footer['right'])
         
         canvas.restoreState()
+    
+    def _calculate_column_widths(self, df: pd.DataFrame, available_width: float) -> list:
+        """
+        Calcula larguras dinâmicas das colunas baseadas no conteúdo
+        
+        Estratégia:
+        1. Analisa comprimento máximo de cada coluna (header + dados)
+        2. Distribui largura proporcionalmente
+        3. Garante mínimo de 2cm e máximo de 8cm por coluna
+        """
+        if df.empty or len(df.columns) == 0:
+            return [available_width]
+        
+        # Calcular comprimento máximo de cada coluna
+        col_lengths = []
+        for col in df.columns:
+            # Comprimento do header
+            header_len = len(str(col))
+            # Comprimento máximo dos dados (limitado a 80 chars)
+            data_len = df[col].astype(str).str.len().max() if not df.empty else 10
+            data_len = min(data_len, 80)  # Limite para evitar colunas muito largas
+            col_lengths.append(max(header_len, data_len))
+        
+        # Calcular pesos proporcionais
+        total_chars = sum(col_lengths)
+        if total_chars == 0:
+            # Fallback: distribuir igualmente
+            return [available_width / len(df.columns)] * len(df.columns)
+        
+        # Distribuir largura proporcionalmente aos caracteres
+        col_widths = [(length / total_chars) * available_width for length in col_lengths]
+        
+        # Aplicar limites: mínimo 2cm, máximo 8cm
+        min_width = 2 * cm
+        max_width = 8 * cm
+        col_widths = [max(min_width, min(w, max_width)) for w in col_widths]
+        
+        # Ajustar se total exceder disponível
+        total_width = sum(col_widths)
+        if total_width > available_width:
+            # Reduzir proporcionalmente
+            scale_factor = available_width / total_width
+            col_widths = [w * scale_factor for w in col_widths]
+        
+        return col_widths
+    
+    @staticmethod
+    def _truncate_text(text: str, max_length: int = 80) -> str:
+        """
+        Trunca texto longo e adiciona reticências
+        """
+        text = str(text).strip()
+        if len(text) <= max_length:
+            return text
+        return text[:max_length-3] + '...'

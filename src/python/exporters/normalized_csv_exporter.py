@@ -83,19 +83,21 @@ class NormalizedCsvExporter:
             self.RELAY_INFO_HEADERS
         )
         
-        # Append CTs
-        if normalized_data.get('cts'):
+        # Append CTs (only if not empty)
+        cts = normalized_data.get('cts', [])
+        if cts and len(cts) > 0:
             self._append_to_csv(
                 self.ct_data_csv,
-                normalized_data['cts'],
+                cts,
                 self.CT_DATA_HEADERS
             )
         
-        # Append VTs
-        if normalized_data.get('vts'):
+        # Append VTs (only if not empty)
+        vts = normalized_data.get('vts', [])
+        if vts and len(vts) > 0:
             self._append_to_csv(
                 self.vt_data_csv,
-                normalized_data['vts'],
+                vts,
                 self.VT_DATA_HEADERS
             )
         

@@ -98,24 +98,40 @@ class ExcelReporter(BaseReporter):
         
         # Linhas de dados
         for row_idx, row_data in enumerate(dataframe_to_rows(df, index=False, header=False), start_row + 1):
+            max_line_count = 1  # Rastrear maior número de linhas na célula
             for col_idx, value in enumerate(row_data, 1):
                 cell = ws.cell(row=row_idx, column=col_idx)
                 cell.value = value
                 cell.font = self.data_font
-                cell.alignment = self.left_align
+                # CORREÇÃO: Adicionar wrap_text=True para quebra automática
+                cell.alignment = Alignment(
+                    horizontal='left',
+                    vertical='top',
+                    wrap_text=True  # Habilita quebra de linha
+                )
                 cell.border = self.border
+                
+                # Contar linhas do texto para ajustar altura
+                if value:
+                    line_count = str(value).count('\n') + 1
+                    max_line_count = max(max_line_count, line_count)
                 
                 # Zebrar linhas
                 if (row_idx - start_row) % 2 == 0:
                     cell.fill = self.alt_row_fill
+            
+            # CORREÇÃO: Ajustar altura da linha baseada no conteúdo
+            ws.row_dimensions[row_idx].height = max(15, max_line_count * 15)
         
-        # Ajustar largura das colunas
+        # CORREÇÃO: Ajustar largura das colunas com limite maior
         for col_idx, column_name in enumerate(df.columns, 1):
             max_length = max(
                 len(str(column_name)),
                 df[column_name].astype(str).str.len().max() if not df.empty else 10
             )
-            ws.column_dimensions[self._get_column_letter(col_idx)].width = min(max_length + 3, 50)
+            # Aumentado limite de 50 para 70 caracteres para colunas importantes
+            # Se precisar mais espaço, o wrap_text evitará overflow
+            ws.column_dimensions[self._get_column_letter(col_idx)].width = min(max_length + 3, 70)
         
         # Rodapé (última linha + 2)
         footer_row = ws.max_row + 2

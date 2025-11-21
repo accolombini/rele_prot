@@ -5,6 +5,21 @@ Executa todas as fases em sequência:
 2. Normalização (CSV → norm_csv)
 3. Carga no Banco (norm_csv → PostgreSQL)
 
+CORREÇÕES CONSOLIDADAS (21/11/2025):
+✅ GE P241/P143: Proteções extraídas de continuation_lines (formato 09.XX: Nome: Status)
+✅ Regex para parsing: ^([0-9A-F]{2}\.[0-9A-F]{2}):\s*(.+?):\s*(Enabled|Disabled)$
+✅ Mapeamento ANSI expandido: 49 (Thermal), 50/51 (OC), 50N/51N (EF), 27/59 (Voltage), 
+   81 (Freq), 50BF (CB Fail), 14 (Stall), 32 (Reverse Power), 40 (Loss of Field), etc.
+✅ load_parameters() implementado: 3947 parâmetros carregados corretamente
+✅ Relés sem CT (P922 voltage relay) não criam linhas vazias no CSV consolidado
+✅ Todas as FKs resolvidas: relay_id → protection_function_id → parameters
+
+RESULTADO ESPERADO:
+  • 8 relés: P241, P143, P922, P220, P122, 3x SEPAM S40
+  • 137 proteções: 33 (P241) + 27 (P143) + 20 (P922) + 29 (P220) + 22 (P122) + 6 (SEPAMs)
+  • 3947 parâmetros
+  • 4 CTs, 5 VTs
+
 NOTA: Relatórios são gerados SOB DEMANDA via generate_reports.py
 """
 

@@ -98,8 +98,12 @@ class ProtecAIPipeline:
             for file_path in all_files:
                 self._process_file(file_path)
             
-            # Step 3: Generate reports
-            self.logger.step(3, "Generating reports")
+            # Step 3: Load normalized data into database
+            self.logger.step(3, "Loading data into database")
+            self._load_to_database()
+            
+            # Step 4: Generate reports
+            self.logger.step(4, "Generating reports")
             self._generate_summary()
             
             self.logger.section("Pipeline Completed Successfully")
@@ -236,6 +240,63 @@ class ProtecAIPipeline:
             errors.append("Missing model name")
         
         return (len(errors) == 0, errors)
+    
+    def _normalize_csv_files(self):
+        """Normalize exported CSV files"""
+        from src.python.normalizers.relay_normalizer import RelayNormalizer
+        from src.python.exporters.csv_exporter import CsvExporter
+        
+        try:
+            normalizer = RelayNormalizer(logger=self.logger)
+            csv_exporter = CsvExporter(
+                output_dir=str(project_root / 'outputs' / 'norm_csv'),
+                logger=self.logger
+            )
+            
+            # Find all CSV files in output directory
+            csv_files = list(self.output_csv_dir.glob('*.csv'))
+            self.logger.info(f"  → Found {len(csv_files)} CSV files to normalize")
+            
+            for csv_file in csv_files:
+                try:
+                    self.logger.info(f"  → Normalizing: {csv_file.name}")
+                    normalized_data = normalizer.normalize_from_csv(str(csv_file))
+                    csv_exporter.export_normalized_data(normalized_data, csv_file.stem)
+                    self.logger.info(f"    ✓ Normalized: {csv_file.stem}")
+                except Exception as e:
+                    self.logger.error(f"    ✗ Failed to normalize {csv_file.name}: {str(e)}")
+                    raise
+            
+            self.logger.info("  ✓ CSV normalization completed")
+        except Exception as e:
+            self.logger.error(f"  ✗ CSV normalization failed: {str(e)}", exc_info=True)
+            raise
+    
+    def _load_to_database(self):
+        """Load normalized CSV data into PostgreSQL"""
+        from src.python.database.database_loader import DatabaseLoader
+        
+        try:
+            csv_path = project_root / 'outputs' / 'norm_csv'
+            loader = DatabaseLoader(
+                db_host=os.getenv('POSTGRES_HOST', 'localhost'),
+                db_port=int(os.getenv('POSTGRES_PORT', 5432)),
+                db_name=os.getenv('POSTGRES_DB', 'protecai_db'),
+                db_user=os.getenv('POSTGRES_USER', 'protecai'),
+                db_password=os.getenv('POSTGRES_PASSWORD', 'protecai'),
+                db_schema='protec_ai',
+                csv_base_path=csv_path
+            )
+            stats = loader.load_all(force=True)  # Force reload para garantir dados atualizados
+            self.logger.info("  ✓ Database loading completed")
+            self.logger.info(f"    - Relays: {stats.get('relays', 0)}")
+            self.logger.info(f"    - Protections: {stats.get('protections', 0)}")
+            self.logger.info(f"    - Parameters: {stats.get('parameters', 0)}")
+            self.logger.info(f"    - CTs: {stats.get('cts', 0)}")
+            self.logger.info(f"    - VTs: {stats.get('vts', 0)}")
+        except Exception as e:
+            self.logger.error(f"  ✗ Database loading failed: {str(e)}", exc_info=True)
+            raise
     
     def _generate_summary(self):
         """Generate processing summary"""

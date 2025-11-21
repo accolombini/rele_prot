@@ -404,18 +404,24 @@ class DatabaseLoader:
         self.logger.info(f"  ✅ {count} funções de proteção carregadas")
         return prot_map
     
-    def load_parameters(self, conn, csv_path: Path, prot_map: Dict[str, int]):
-        """Carrega parâmetros vinculados às funções de proteção"""
+    def load_parameters(self, conn, csv_path: Path, relay_map: Dict[str, int]):
+        """
+        Carrega parâmetros vinculados às funções de proteção
+        
+        Args:
+            conn: Conexão com banco
+            csv_path: Path para all_parameters.csv
+            relay_map: Dicionário {relay_id_csv: relay_id_banco}
+        
+        Estratégia:
+        - Busca a PRIMEIRA protection_function de cada relay
+        - Vincula todos os parâmetros desse relay à primeira função
+        - Schema atual: parameters.protection_function_id (NOT NULL FK)
+        - Colunas: parameter_code, parameter_name, parameter_value, parameter_unit, parameter_type
+        """
         self.logger.info(f"Carregando parameters de {csv_path.name}")
         
-        df = pd.read_csv(csv_path, sep=';')
-        count = 0
-        
-        # Como parâmetros no CSV não têm prot_id, vamos criar uma proteção genérica por relay
-        # Ou podemos vincular todos os parâmetros à primeira proteção do relé
-        # Por simplicidade, vou criar registros sem FK por enquanto
-        
-        # Buscar todas as protection_functions para mapear relay_id -> primeira protection_function_id
+        # 1. Buscar mapeamento relay_id_banco -> primeira protection_function_id
         relay_to_prot = {}
         with conn.cursor() as cur:
             cur.execute(
@@ -425,19 +431,80 @@ class DatabaseLoader:
                     ORDER BY relay_id, id
                 """).format(sql.Identifier(self.schema))
             )
-            for relay_id, prot_id in cur.fetchall():
-                relay_to_prot[relay_id] = prot_id
+            for relay_id_db, prot_func_id in cur.fetchall():
+                relay_to_prot[relay_id_db] = prot_func_id
         
-        # Bulk insert
-        values = []
-        for _, row in df.iterrows():
-            # Precisamos mapear relay_id do CSV para relay_id do banco
-            # Mas já perdemos essa informação... vou usar uma abordagem diferente
-            # Vou pular parâmetros por ora e voltar depois se necessário
-            pass
+        # 2. Carregar CSV e inserir parâmetros
+        df = pd.read_csv(csv_path, sep=';')
+        count = 0
+        skipped = 0
         
-        # Por ora, log que parâmetros serão carregados em uma segunda passagem
-        self.logger.info(f"  ⚠️  Parâmetros requerem mapeamento relay_id → protection_function_id")
+        with conn.cursor() as cur:
+            for _, row in df.iterrows():
+                # Mapear relay_id do CSV (R001) -> relay_id banco (1)
+                relay_id_csv = row.get('relay_id')
+                relay_id_db = relay_map.get(relay_id_csv)
+                
+                if not relay_id_db:
+                    self.logger.warning(f"  ⚠️  Relay {relay_id_csv} não encontrado - parâmetro ignorado")
+                    skipped += 1
+                    continue
+                
+                # Obter protection_function_id desse relay
+                prot_func_id = relay_to_prot.get(relay_id_db)
+                if not prot_func_id:
+                    self.logger.warning(f"  ⚠️  Relay {relay_id_csv} sem proteções - parâmetro ignorado")
+                    skipped += 1
+                    continue
+                
+                # Extract values with null handling
+                section_or_code = safe_value(row.get('section_or_code'))
+                parameter_name = safe_value(row.get('parameter_name'))
+                value = safe_value(row.get('value'))
+                
+                # Tentar determinar tipo e unidade (simplificado)
+                parameter_type = 'Configuration'
+                parameter_unit = None
+                
+                # Detect units in value (e.g., "13.80 kV", "150.0 A")
+                if value and isinstance(value, str):
+                    if 'kV' in value or 'V' in value:
+                        parameter_unit = 'V'
+                        parameter_type = 'Voltage'
+                    elif ' A' in value or value.endswith('A'):
+                        parameter_unit = 'A'
+                        parameter_type = 'Current'
+                    elif 's' in value.lower() or 'ms' in value.lower():
+                        parameter_unit = 's'
+                        parameter_type = 'Time'
+                
+                # Insert parameter (schema: protection_function_id, parameter_code, parameter_name, parameter_value, parameter_unit, parameter_type)
+                cur.execute(
+                    sql.SQL("""
+                        INSERT INTO {}.parameters (
+                            protection_function_id,
+                            parameter_code,
+                            parameter_name,
+                            parameter_value,
+                            parameter_unit,
+                            parameter_type
+                        )
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """).format(sql.Identifier(self.schema)),
+                    (
+                        prot_func_id,
+                        section_or_code if section_or_code else 'N/A',
+                        parameter_name if parameter_name else 'N/A',
+                        value if value else 'N/A',
+                        parameter_unit,
+                        parameter_type
+                    )
+                )
+                count += 1
+        
+        self.logger.info(f"  ✅ {count} parâmetros carregados")
+        if skipped > 0:
+            self.logger.warning(f"  ⚠️  {skipped} parâmetros ignorados")
         self.logger.info(f"  ℹ️  Total de {len(df)} parâmetros pendentes")
     
     def load_all(self, force: bool = False) -> Dict[str, int]:
@@ -500,8 +567,8 @@ class DatabaseLoader:
             # 4. Proteções
             prot_map = self.load_protection_functions(conn, files['protection_functions'], relay_map)
             
-            # 5. Parâmetros (requer refatoração para mapear corretamente)
-            self.load_parameters(conn, files['parameters'], prot_map)
+            # 5. Parâmetros (vinculados diretamente ao relay, não à protection_function)
+            self.load_parameters(conn, files['parameters'], relay_map)
             
             # Log de processamento
             self.log_processing(conn, files['relay_info'], 'SUCCESS', stats['relays'])

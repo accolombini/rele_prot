@@ -285,34 +285,50 @@ class RelayNormalizer(BaseNormalizer):
         return meta
     
     def _normalize_cts(self, sections: Dict, relay_id: str) -> List[Dict[str, Any]]:
-        """Normalize CT data"""
+        """
+        Normalize CT data
+        
+        IMPORTANTE: Códigos 0120-0125 podem ser VT ou CT dependendo do fabricante!
+        - P922 (Schneider voltage relay): 0120 = VT Primary
+        - P220/P122 (Schneider motor relay): códigos diferentes
+        
+        Estratégia segura: buscar apenas por "CT" explícito no parameter_name
+        """
         cts = []
         ct_counter = 0
         
-        # Search for CT parameters in data
+        # Search for CT parameters - APENAS se "CT" estiver no nome
         for param in sections.get('parameters', []):
             code = param.get('code_or_section', '')
             parameter = param.get('parameter_or_key', '')
             value = param.get('value', '')
             
-            # CT RATIO codes (PDFs Schneider: 0120-0123, SEPAM: i_nominal)
-            if code in ['0120', '0122'] or 'CT primary' in parameter:
+            # Buscar APENAS se tiver "CT" explícito no nome do parâmetro
+            # Exemplos válidos: "Phase CT Primary", "Line CT primary", "CT primary"
+            if 'CT' in parameter.upper() and ('primary' in parameter.lower() or 'prim' in parameter.lower()):
                 ct_counter += 1
-                ct_type = 'Phase' if '0120' in code or 'Line CT' in parameter else 'Ground'
+                ct_type = 'Phase' if 'phase' in parameter.lower() or 'line' in parameter.lower() else 'Ground'
                 
-                # Try to find secondary value
-                # This is simplified - real implementation needs pairing logic
-                parsed = self.converter.parse_ct_ratio(f"{value}:5")  # Default secondary
-                
-                cts.append({
-                    'ct_id': f"{relay_id}_CT{ct_counter:02d}",
-                    'relay_id': relay_id,
-                    'ct_type': ct_type,
-                    'primary_a': parsed['primary_a'],
-                    'secondary_a': parsed['secondary_a'],
-                    'ratio': parsed['ratio'],
-                    'usage': 'Line' if ct_type == 'Phase' else 'Residual'
-                })
+                # Só adicionar se valor não estiver vazio
+                if value and value.strip():
+                    # Try to parse CT ratio
+                    try:
+                        parsed = self.converter.parse_ct_ratio(f"{value}:5")  # Default secondary
+                        
+                        # Validar se primary foi extraído corretamente
+                        if parsed.get('primary_a') and parsed['primary_a'] > 0:
+                            cts.append({
+                                'ct_id': f"{relay_id}_CT{ct_counter:02d}",
+                                'relay_id': relay_id,
+                                'ct_type': ct_type,
+                                'primary_a': parsed['primary_a'],
+                                'secondary_a': parsed['secondary_a'],
+                                'ratio': parsed['ratio'],
+                                'usage': 'Line' if ct_type == 'Phase' else 'Residual'
+                            })
+                    except:
+                        # Ignorar se parsing falhar
+                        pass
         
         return cts
     
@@ -346,39 +362,85 @@ class RelayNormalizer(BaseNormalizer):
         return vts
     
     def _normalize_protections(self, sections: Dict, relay_id: str) -> List[Dict[str, Any]]:
-        """Normalize protection functions"""
+        """
+        Normalize protection functions
+        
+        Supports:
+        - Schneider format: code starts with '02' (e.g., 0200, 0210)
+        - GE format: code starts with '09.' (e.g., 09.0B, 09.0C)
+        - GE continuation_lines: parses "CODE: Function: Status" separated by "|"
+        """
         protections = []
         prot_counter = 0
         
-        # This is a simplified version - real implementation needs:
-        # - ANSI code detection
-        # - Setpoint parsing
-        # - Enable/disable status
-        
-        # Look for protection codes (0200-0299 range typically)
         for param in sections.get('parameters', []):
             code = param.get('code_or_section', '')
             parameter = param.get('parameter_or_key', '')
             value = param.get('value', '')
+            continuation_lines = param.get('extra', '')
             
-            # Protection parameters (simplified detection)
+            # STRATEGY 1: Schneider format (code 02XX) or explicit "Protection" keyword
             if code.startswith('02') or 'Protection' in parameter:
                 prot_counter += 1
-                
-                # Try to extract ANSI code from parameter name
                 ansi_code = self._extract_ansi_code(parameter)
                 
                 protections.append({
                     'prot_id': f"{relay_id}_P{prot_counter:03d}",
                     'relay_id': relay_id,
                     'ansi_code': ansi_code,
-                    'function_name': parameter[:50],  # Truncate
+                    'function_name': parameter[:50],
                     'is_enabled': self.converter.normalize_boolean(value),
                     'setpoint_1': value if not self.converter.normalize_boolean(value) else None,
-                    'unit_1': None,  # TODO: Extract unit
+                    'unit_1': None,
                     'time_dial': None,
                     'curve_type': None
                 })
+            
+            # STRATEGY 2: GE format individual lines (code 09.XX)
+            if code.startswith('09.') and value in ['Enabled', 'Disabled']:
+                prot_counter += 1
+                ansi_code = self._extract_ansi_code(parameter)
+                
+                protections.append({
+                    'prot_id': f"{relay_id}_P{prot_counter:03d}",
+                    'relay_id': relay_id,
+                    'ansi_code': ansi_code,
+                    'function_name': parameter[:50],
+                    'is_enabled': (value == 'Enabled'),
+                    'setpoint_1': None,
+                    'unit_1': None,
+                    'time_dial': None,
+                    'curve_type': None
+                })
+            
+            # STRATEGY 3: GE format in continuation_lines (multi-line format)
+            # Example: "09.0B: Thermal Overload:Enabled | 09.0C: Short Circuit: Enabled"
+            if continuation_lines and '|' in continuation_lines:
+                for line in continuation_lines.split('|'):
+                    line = line.strip()
+                    
+                    # Match pattern: "CODE: Function Name: Status"
+                    # Examples: "09.0B: Thermal Overload:Enabled", "09.0C: Short Circuit: Enabled"
+                    match = re.match(r'^([0-9A-F]{2}\.[0-9A-F]{2}):\s*(.+?):\s*(Enabled|Disabled)$', line)
+                    if match:
+                        prot_code = match.group(1)
+                        prot_name = match.group(2).strip()
+                        prot_status = match.group(3)
+                        
+                        prot_counter += 1
+                        ansi_code = self._extract_ansi_code(prot_name)
+                        
+                        protections.append({
+                            'prot_id': f"{relay_id}_P{prot_counter:03d}",
+                            'relay_id': relay_id,
+                            'ansi_code': ansi_code,
+                            'function_name': prot_name[:50],
+                            'is_enabled': (prot_status == 'Enabled'),
+                            'setpoint_1': None,
+                            'unit_1': None,
+                            'time_dial': None,
+                            'curve_type': None
+                        })
         
         return protections
     
@@ -403,13 +465,82 @@ class RelayNormalizer(BaseNormalizer):
         return parameters
     
     def _extract_ansi_code(self, parameter_name: str) -> str:
-        """Extract ANSI code from parameter name"""
-        # Common ANSI codes
-        ansi_codes = ['50', '51', '50N', '51N', '46', '49', '37', '59', '27', '81', '67', '67N', '32']
+        """
+        Extract ANSI code from protection function name
         
-        param_upper = parameter_name.upper()
-        for code in ansi_codes:
-            if code in param_upper:
+        Mapping based on IEEE C37.2 standard and common relay terminology:
+        - 14: Under/Over Speed
+        - 27: Under-Voltage
+        - 32: Reverse Power
+        - 37: Under-Current
+        - 40: Loss of Field/Load
+        - 46: Negative Sequence (Unbalance)
+        - 47: Negative Sequence Voltage
+        - 49: Thermal Overload
+        - 50: Instantaneous Overcurrent
+        - 51: Time Overcurrent
+        - 50N/51N: Earth Fault (Ground)
+        - 50BF: Breaker Failure
+        - 59: Over-Voltage
+        - 59N: Residual Overvoltage (NVD)
+        - 67: Directional Overcurrent
+        - 78: Out of Step
+        - 81: Frequency (Under/Over)
+        - 87: Differential
+        - RTD: Resistance Temperature Detector
+        """
+        param_lower = parameter_name.lower()
+        
+        # Priority mapping - more specific patterns first
+        ansi_mapping = {
+            # Specific patterns (check these first to avoid false matches)
+            'breaker fail': '50BF',
+            'cb fail': '50BF',
+            'sensitive e/f': '50N/51N',
+            'derived e/f': '50N/51N',
+            'earth fault': '50N/51N',
+            'e/f': '50N/51N',
+            'sef': '50N/51N',
+            'residual o/v': '59N',
+            'nvd': '59N',
+            'neg seq o/c': '46',
+            'negative sequence o/c': '46',
+            'neg seq o/v': '47',
+            'negative seq o/v': '47',
+            'thermal overload': '49',
+            'thermal': '49',
+            'short circuit': '50/51',
+            'overcurrent': '50/51',
+            'under voltage': '27',
+            'under-voltage': '27',
+            'volt protection': '27/59',
+            'voltage protection': '27/59',
+            'over voltage': '59',
+            'over-voltage': '59',
+            'under frequency': '81',
+            'freq protection': '81',
+            'frequency': '81',
+            'reverse power': '32',
+            'loss of load': '40',
+            'field failure': '40',
+            'loss of field': '40',
+            'out of step': '78',
+            'stall detection': '14',
+            'antibackspin': '14',
+            'under current': '37',
+            'under-current': '37',
+            'rtd': 'RTD',
+            'temperature': 'RTD',
+            # Numeric codes (last resort)
+            'i>': '50/51',
+            'i<': '37',
+            'v>': '59',
+            'v<': '27',
+        }
+        
+        # Search for matching pattern
+        for pattern, code in ansi_mapping.items():
+            if pattern in param_lower:
                 return code
         
         return 'Unknown'
