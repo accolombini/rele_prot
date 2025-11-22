@@ -15,6 +15,136 @@ from .pdf_reporter import PDFReporter
 class ReportGenerator:
     """Orquestrador principal de geração de relatórios"""
     
+    # Relatórios que devem ser SEMPRE em landscape (muitas colunas)
+    FORCE_LANDSCAPE = ['REL06', 'REL08']
+    
+    # Dicionário de abreviações para headers longos
+    HEADER_ABBREVIATIONS = {
+        'Código ANSI': 'Cd.ANSI',
+        'Nome da Função': 'Função',
+        'Classe de Tensão (kV)': 'C.Tensão\nkV',
+        'Total de Proteções': 'TotProt',
+        'Total de Instalações': 'TotInst',
+        'Total de Instâncias': 'TotInst',
+        'Lista de Parâmetros Críticos': 'L_Par_Crit',
+        'Código da Subestação': 'Cd.Subest',
+        'Total de Modelos': 'TotMod',
+        'Total de Relés': 'TotRelés',
+        'Tipo de Relé': 'Tipo\nRelé',
+        'ID Relé': 'ID\nRelé',
+        'Tipo de Parâmetro': 'Tipo\nParam',
+        'Nome da Função de Proteção': 'Função\nProteção',
+        'Total de TCs': 'Tot\nTCs',
+        'Total de TPs': 'Tot\nTPs',
+        'Total de Parâmetros': 'Tot\nParams',
+        'Proteções Habilitadas': 'Prot\nHabil',
+        'Data de Configuração': 'Data\nConfig',
+        'Versão de Software': 'Ver.\nSW',
+        'Versão de Firmware': 'Ver.\nFW',
+        'TP Definido': 'TP\nDef',
+        'TP Habilitado': 'TP\nHabil',
+        'Fonte de Tensão': 'Fonte\nTensão',
+        'Confiança da Tensão': 'Conf.\nTensão',
+        'Fabricantes': 'Fab',
+        'Habilitadas': 'EN',
+        'Desabilitadas': 'DES',
+        'Código da Subestação': 'SE',
+        'Fabricante': 'Fab',
+        'Proteções Habilitadas': 'Prot\nHabil',
+        'Data de Configuração': 'Data\nConfig',
+        'Versão de Software': 'Ver.\nSW',
+        'Versão de Firmware': 'Ver.\nFW',
+        'C.Tensão\nkV': 'V_kV',
+        'Classe de Tensão (kV)': 'V_kV'
+    }
+    
+    # Mapeamento de tradução de colunas para headers formatados
+    COLUMN_TRANSLATIONS = {
+        # Identificadores
+        'id_rele': 'ID Relé',
+        'relay_id': 'ID Relé',
+        'barra': 'Barra',
+        'bay_identifier': 'Barra',
+        
+        # Fabricante e Modelo
+        'fabricante': 'Fabricante',
+        'manufacturer_name': 'Fabricante',
+        'modelo': 'Modelo',
+        'model_name': 'Modelo',
+        
+        # Códigos ANSI e Funções
+        'codigo_ansi': 'Código ANSI',
+        'ansi_code': 'Código ANSI',
+        'nome_funcao': 'Nome da Função',
+        'ansi_name': 'Nome da Função',
+        
+        # Status
+        'habilitado': 'Habilitado',
+        'is_enabled': 'Habilitado',
+        
+        # Parâmetros
+        'parametro': 'Parâmetro',
+        'parameter_name': 'Parâmetro',
+        'valor': 'Valor',
+        'parameter_value': 'Valor',
+        'unidade': 'Unidade',
+        'parameter_unit': 'Unidade',
+        'tipo_parametro': 'Tipo de Parâmetro',
+        'parameter_type': 'Tipo de Parâmetro',
+        
+        # Totalizadores
+        'total_reles': 'Total de Relés',
+        'total_relays': 'Total de Relés',
+        'total_models': 'Total de Modelos',
+        'total_instancias': 'Total de Instâncias',
+        'total_instances': 'Total de Instâncias',
+        'total_protecoes': 'Total de Proteções',
+        'total_protections': 'Total de Proteções',
+        'total_parametros': 'Total de Parâmetros',
+        'total_params': 'Total de Parâmetros',
+        'parametros_criticos': 'Parâmetros Críticos',
+        'critical_params': 'Parâmetros Críticos',
+        
+        # Listas e agregações
+        'fabricantes': 'Fabricantes',
+        'manufacturers': 'Fabricantes',
+        'habilitadas': 'Habilitadas',
+        'enabled_count': 'Habilitadas',
+        'desabilitadas': 'Desabilitadas',
+        'disabled_count': 'Desabilitadas',
+        'lista_parametros_criticos': 'Lista de Parâmetros Críticos',
+        'critical_params_list': 'Lista de Parâmetros Críticos',
+        
+        # Tipos e Classes
+        'tipo_rele': 'Tipo de Relé',
+        'relay_type': 'Tipo de Relé',
+        'classe_tensao_kv': 'Classe de Tensão (kV)',
+        'voltage_class_kv': 'Classe de Tensão (kV)',
+        
+        # Subestação
+        'codigo_subestacao': 'Código da Subestação',
+        'substation_code': 'Código da Subestação',
+        
+        # Dados completos
+        'total_cts': 'Total de TCs',
+        'total_vts': 'Total de TPs',
+        'total_parameters': 'Total de Parâmetros',
+        'enabled_protections': 'Proteções Habilitadas',
+        'config_date': 'Data de Configuração',
+        'software_version': 'Versão de Software',
+        'firmware_version': 'Versão de Firmware',
+        'vt_defined': 'TP Definido',
+        'vt_enabled': 'TP Habilitado',
+        'voltage_source': 'Fonte de Tensão',
+        'voltage_confidence': 'Confiança da Tensão',
+        
+        # Análise de Tensão
+        'relays_with_vt_defined': 'Relés com TP Definido',
+        'relays_with_vt_enabled': 'Relés com TP Habilitado',
+        'voltage_sources': 'Fontes de Tensão',
+        'confidence_levels': 'Níveis de Confiança'
+    }
+    
     # Definição dos 9 relatórios
     REPORTS = {
         'REL01': {
@@ -69,9 +199,8 @@ class ReportGenerator:
         'REL09': {
             'name': 'parametros_criticos',
             'title': 'Relatório de Parâmetros Críticos Consolidado',
-            'view': 'vw_relays_complete',
-            'description': 'Consolidação de parâmetros críticos por relé',
-            'filter': "total_parameters > 0"
+            'view': 'vw_critical_parameters_consolidated',
+            'description': 'Consolidação de parâmetros críticos por relé'
         }
     }
     
@@ -110,6 +239,34 @@ class ReportGenerator:
         self.csv_reporter = CSVReporter(output_base_path)
         self.excel_reporter = ExcelReporter(output_base_path)
         self.pdf_reporter = PDFReporter(output_base_path)
+    
+    def translate_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Traduz os nomes das colunas do DataFrame usando o mapeamento
+        e aplica abreviações para otimizar espaço nos relatórios
+        
+        Args:
+            df: DataFrame com colunas em inglês/snake_case
+            
+        Returns:
+            DataFrame com colunas traduzidas, formatadas e abreviadas
+        """
+        column_mapping = {}
+        for col in df.columns:
+            # Se existe tradução, usa; senão mantém original formatado
+            if col in self.COLUMN_TRANSLATIONS:
+                translated = self.COLUMN_TRANSLATIONS[col]
+            else:
+                # Fallback: capitalizar primeira letra de cada palavra
+                translated = col.replace('_', ' ').title()
+            
+            # Aplicar abreviações se houver
+            if translated in self.HEADER_ABBREVIATIONS:
+                column_mapping[col] = self.HEADER_ABBREVIATIONS[translated]
+            else:
+                column_mapping[col] = translated
+        
+        return df.rename(columns=column_mapping)
     
     def get_connection(self):
         """Cria conexão com o banco de dados"""
@@ -168,6 +325,9 @@ class ReportGenerator:
         
         print(f"  📊 {len(df)} registros encontrados")
         
+        # 🔧 TRADUZIR COLUNAS ANTES DE EXPORTAR
+        df = self.translate_columns(df)
+        
         # Gerar nos formatos solicitados
         generated_files = {}
         
@@ -194,7 +354,13 @@ class ReportGenerator:
         
         if 'pdf' in formats:
             # Determinar orientação baseado no número de colunas
-            orientation = 'landscape' if len(df.columns) > 6 else 'portrait'
+            # CORREÇÃO: Forçar landscape para relatórios críticos (REL06, REL08)
+            if report_code in self.FORCE_LANDSCAPE:
+                orientation = 'landscape'
+            elif len(df.columns) > 8:
+                orientation = 'landscape'
+            else:
+                orientation = 'portrait'
             
             pdf_path = self.pdf_reporter.export(
                 df,
@@ -279,6 +445,9 @@ class ReportGenerator:
             return {}
         
         print(f"  📊 {len(df)} registros encontrados")
+        
+        # 🔧 TRADUZIR COLUNAS ANTES DE EXPORTAR
+        df = self.translate_columns(df)
         
         generated_files = {}
         
