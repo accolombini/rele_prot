@@ -98,6 +98,10 @@ class ProtecAIPipeline:
             for file_path in all_files:
                 self._process_file(file_path)
             
+            # Step 2.5: Normalize CSV files
+            self.logger.info("[STEP 2.5] Normalizing CSV files to 3FN format")
+            self._normalize_csv_files()
+            
             # Step 3: Load normalized data into database
             self.logger.step(3, "Loading data into database")
             self._load_to_database()
@@ -244,14 +248,17 @@ class ProtecAIPipeline:
     def _normalize_csv_files(self):
         """Normalize exported CSV files"""
         from src.python.normalizers.relay_normalizer import RelayNormalizer
-        from src.python.exporters.csv_exporter import CsvExporter
+        from src.python.exporters.normalized_csv_exporter import NormalizedCsvExporter
         
         try:
             normalizer = RelayNormalizer(logger=self.logger)
-            csv_exporter = CsvExporter(
+            csv_exporter = NormalizedCsvExporter(
                 output_dir=str(project_root / 'outputs' / 'norm_csv'),
                 logger=self.logger
             )
+            
+            # Initialize consolidated CSVs (with headers)
+            csv_exporter.initialize_csvs()
             
             # Find all CSV files in output directory
             csv_files = list(self.output_csv_dir.glob('*.csv'))
@@ -261,8 +268,13 @@ class ProtecAIPipeline:
                 try:
                     self.logger.info(f"  → Normalizing: {csv_file.name}")
                     normalized_data = normalizer.normalize_from_csv(str(csv_file))
-                    csv_exporter.export_normalized_data(normalized_data, csv_file.stem)
-                    self.logger.info(f"    ✓ Normalized: {csv_file.stem}")
+                    
+                    # Append to consolidated CSVs
+                    csv_exporter.append_normalized_data(normalized_data)
+                    
+                    # Log summary
+                    relay_id = normalized_data['relay_info']['relay_id']
+                    self.logger.info(f"  → Relay: {relay_id}, CTs: {len(normalized_data.get('cts', []))}, VTs: {len(normalized_data.get('vts', []))}, Protections: {len(normalized_data.get('protections', []))}, Parameters: {len(normalized_data.get('parameters', []))}")
                 except Exception as e:
                     self.logger.error(f"    ✗ Failed to normalize {csv_file.name}: {str(e)}")
                     raise

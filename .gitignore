@@ -48,3 +48,8 @@ htmlcov/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Microsoft Office temporary files
+~$*.docx
+~$*.xlsx
+*.tmp

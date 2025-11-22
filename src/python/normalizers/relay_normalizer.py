@@ -49,10 +49,24 @@ class RelayNormalizer(BaseNormalizer):
         relay_id = f"R{self.relay_counter:03d}"
         
         # Normalize each section
+        relay_info = self._normalize_relay_info(sections, relay_id, path.name)
+        vts = self._normalize_vts(sections, relay_id)
+        
+        # 🔧 FIX: If voltage_class_kv is None but VTs exist, compute from Main VT
+        if relay_info['voltage_class_kv'] is None and vts:
+            main_vts = [vt for vt in vts if vt['vt_type'] == 'Main']
+            if main_vts:
+                primary_v = main_vts[0]['primary_v']  # First Main VT
+                relay_info['voltage_class_kv'] = round(primary_v / 1000.0, 2)  # V → kV
+                relay_info['vt_defined'] = True
+                relay_info['voltage_source'] = 'doc'
+                relay_info['voltage_confidence'] = 1.0
+                self.log_info(f"  ✓ Calculated voltage_class_kv from Main VT: {relay_info['voltage_class_kv']} kV")
+        
         normalized = {
-            'relay_info': self._normalize_relay_info(sections, relay_id, path.name),
+            'relay_info': relay_info,
             'cts': self._normalize_cts(sections, relay_id),
-            'vts': self._normalize_vts(sections, relay_id),
+            'vts': vts,
             'protections': self._normalize_protections(sections, relay_id),
             'parameters': self._normalize_parameters(sections, relay_id)
         }
@@ -333,7 +347,7 @@ class RelayNormalizer(BaseNormalizer):
         return cts
     
     def _normalize_vts(self, sections: Dict, relay_id: str) -> List[Dict[str, Any]]:
-        """Normalize VT data"""
+        """Normalize VT data - busca em parameters principais E continuation_lines"""
         vts = []
         vt_counter = 0
         
@@ -342,8 +356,10 @@ class RelayNormalizer(BaseNormalizer):
             code = param.get('code_or_section', '')
             parameter = param.get('parameter_or_key', '')
             value = param.get('value', '')
+            continuation_lines = param.get('extra', '')
             
-            # VT parameters (tension_primaire_nominale, Main VT Primary, etc.)
+            # STRATEGY 1: VT parameters in main parameter line
+            # (tension_primaire_nominale for SEPAM, Main VT Primary for some PDFs)
             if 'tension_primaire' in parameter.lower() or 'vt primary' in parameter.lower():
                 vt_counter += 1
                 vt_type = 'Main' if 'main' in parameter.lower() or 'primaire' in parameter.lower() else 'Residual'
@@ -358,6 +374,50 @@ class RelayNormalizer(BaseNormalizer):
                     'secondary_v': parsed['secondary_v'],
                     'ratio': parsed['ratio']
                 })
+            
+            # STRATEGY 2: VT parameters in continuation_lines (GE MiCOM format)
+            # Example: "0A.01: Main VT Primary: 13.80 kV | 0A.02: Main VT Sec'y: 120.0 V"
+            if continuation_lines and 'VT' in continuation_lines:
+                # Split by pipe and search for VT lines
+                for line in continuation_lines.split('|'):
+                    line = line.strip()
+                    
+                    # Match VT Primary pattern: "CODE: VT_NAME Primary: VALUE"
+                    # Examples: "0A.01: Main VT Primary: 13.80 kV", "0A.01: Main VT Primary: 4160 V"
+                    match_primary = re.search(r'([0-9A-F]{2}\.[0-9A-F]{2}):\s*(.+?VT)\s+Primary:\s*(\d+\.?\d*)\s*(kV|V)', line, re.IGNORECASE)
+                    if match_primary:
+                        vt_code = match_primary.group(1)
+                        vt_name = match_primary.group(2).strip()
+                        primary_value = float(match_primary.group(3))
+                        primary_unit = match_primary.group(4)
+                        
+                        # Convert kV to V if needed
+                        if primary_unit.lower() == 'kv':
+                            primary_value = primary_value * 1000
+                        
+                        # Look for corresponding secondary in same continuation_lines
+                        # Pattern: "CODE: VT_NAME Sec'y: VALUE V" or "CODE: VT_NAME Secondary: VALUE V"
+                        match_secondary = re.search(rf'{vt_code}:\s*.+?Sec[\'o]?[yn]?d?a?r?y:\s*(\d+\.?\d*)\s*V', continuation_lines, re.IGNORECASE)
+                        secondary_value = float(match_secondary.group(1)) if match_secondary else 120.0  # Default 120V
+                        
+                        # Determine VT type
+                        vt_type = 'Main'
+                        if 'main' in vt_name.lower():
+                            vt_type = 'Main'
+                        elif 'nvd' in vt_name.lower() or 'residual' in vt_name.lower():
+                            vt_type = 'NVD'
+                        elif 'c/s' in vt_name.lower() or 'check sync' in vt_name.lower():
+                            vt_type = 'Check Sync'
+                        
+                        vt_counter += 1
+                        vts.append({
+                            'vt_id': f"{relay_id}_VT{vt_counter:02d}",
+                            'relay_id': relay_id,
+                            'vt_type': vt_type,
+                            'primary_v': primary_value,
+                            'secondary_v': secondary_value,
+                            'ratio': f"{int(primary_value)}:{int(secondary_value)}"
+                        })
         
         return vts
     
