@@ -13,6 +13,7 @@ outputs/excel/*.xlsx
 outputs/norm_csv/
 outputs/norm_excel/
 outputs/relatorios/
+outputs/.DS_Store
 
 # Registros de processamento (arquivos temporários/estado)
 inputs/registry/processed_files.json
