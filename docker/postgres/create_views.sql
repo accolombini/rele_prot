@@ -21,10 +21,20 @@ CREATE OR REPLACE VIEW protec_ai.vw_critical_setpoints AS
 SELECT 
     r.id as id_rele,
     r.bay_identifier as barra,
-    m.name as fabricante,
+    CASE 
+        WHEN m.name = 'GENERAL ELECTRIC' THEN 'GE'
+        WHEN m.name = 'SCHNEIDER ELECTRIC' THEN 'SNE'
+        WHEN m.name = 'SCHWEITZER' THEN 'SEL'
+        WHEN m.name = 'SIEMENS' THEN 'SIE'
+        WHEN m.name = 'ABB' THEN 'ABB'
+        ELSE m.name
+    END as fabricante,
     rm.model_name as modelo,
     af.ansi_code as codigo_ansi,
-    af.name as nome_funcao,
+    CASE 
+        WHEN af.name = 'THERMAL OVERLOAD FUNCT' THEN 'TOL'
+        ELSE af.name
+    END as nome_funcao,
     pf.is_enabled as habilitado,
     p.parameter_name as parametro,
     p.parameter_value as valor,
@@ -46,7 +56,25 @@ SELECT
     COALESCE(r.relay_type, 'Não Especificado') as relay_type,
     COUNT(DISTINCT r.id) as total_relays,
     COUNT(DISTINCT r.relay_model_id) as total_models,
-    STRING_AGG(DISTINCT m.name, ', ' ORDER BY m.name) as manufacturers
+    STRING_AGG(
+        DISTINCT 
+        CASE 
+            WHEN m.name = 'GENERAL ELECTRIC' THEN 'GE'
+            WHEN m.name = 'SCHNEIDER ELECTRIC' THEN 'SNE'
+            WHEN m.name = 'SCHWEITZER' THEN 'SEL'
+            WHEN m.name = 'SIEMENS' THEN 'SIE'
+            WHEN m.name = 'ABB' THEN 'ABB'
+            ELSE m.name
+        END, 
+        ', ' ORDER BY CASE 
+            WHEN m.name = 'GENERAL ELECTRIC' THEN 'GE'
+            WHEN m.name = 'SCHNEIDER ELECTRIC' THEN 'SNE'
+            WHEN m.name = 'SCHWEITZER' THEN 'SEL'
+            WHEN m.name = 'SIEMENS' THEN 'SIE'
+            WHEN m.name = 'ABB' THEN 'ABB'
+            ELSE m.name
+        END
+    ) as manufacturers
 FROM protec_ai.relays r
 LEFT JOIN protec_ai.relay_models rm ON r.relay_model_id = rm.id
 LEFT JOIN protec_ai.manufacturers m ON rm.manufacturer_id = m.id
@@ -56,11 +84,24 @@ ORDER BY total_relays DESC;
 -- REL04: Relés por Fabricante
 CREATE OR REPLACE VIEW protec_ai.vw_relays_by_manufacturer AS
 SELECT 
-    m.name as fabricante,
+    CASE 
+        WHEN m.name = 'GENERAL ELECTRIC' THEN 'GE'
+        WHEN m.name = 'SCHNEIDER ELECTRIC' THEN 'SNE'
+        WHEN m.name = 'SCHWEITZER' THEN 'SEL'
+        WHEN m.name = 'SIEMENS' THEN 'SIE'
+        WHEN m.name = 'ABB' THEN 'ABB'
+        ELSE m.name
+    END as fabricante,
     rm.model_name as modelo,
     r.id as id_rele,
     r.bay_identifier as barra,
-    r.relay_type as tipo_rele,
+    CASE 
+        WHEN r.relay_type = 'Proteção de Alimentador' THEN 'P_ALIM'
+        WHEN r.relay_type = 'Proteção de Linha' THEN 'P_LIN'
+        WHEN r.relay_type = 'Proteção de Motor' THEN 'P_MOT'
+        WHEN r.relay_type = 'Proteção de Transformador' THEN 'P_TF'
+        ELSE r.relay_type
+    END as tipo_rele,
     COALESCE(CAST(r.voltage_class_kv AS VARCHAR), 'Dados_N_Forn') as classe_tensao_kv,
     COUNT(DISTINCT pf.id) as total_protecoes
 FROM protec_ai.manufacturers m
@@ -226,7 +267,10 @@ SELECT
         ELSE rm.model_name
     END as modelo,
     af.ansi_code as codigo_ansi,
-    af.name as nome_funcao,
+    CASE 
+        WHEN af.name = 'THERMAL OVERLOAD FUNCT' THEN 'TOL'
+        ELSE af.name
+    END as nome_funcao,
     COUNT(DISTINCT p.id) as total_parametros,
     COUNT(DISTINCT CASE WHEN p.parameter_type IN ('Current', 'Voltage', 'Time') THEN p.id END) as parametros_criticos,
     REPLACE(

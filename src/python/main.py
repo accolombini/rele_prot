@@ -249,6 +249,7 @@ class ProtecAIPipeline:
         """Normalize exported CSV files"""
         from src.python.normalizers.relay_normalizer import RelayNormalizer
         from src.python.exporters.normalized_csv_exporter import NormalizedCsvExporter
+        from src.python.exporters.normalized_excel_exporter import NormalizedExcelExporter
         
         try:
             normalizer = RelayNormalizer(logger=self.logger)
@@ -256,9 +257,18 @@ class ProtecAIPipeline:
                 output_dir=str(project_root / 'outputs' / 'norm_csv'),
                 logger=self.logger
             )
+            excel_exporter = NormalizedExcelExporter(
+                output_dir=str(project_root / 'outputs' / 'norm_excel'),
+                logger=self.logger
+            )
             
             # Initialize consolidated CSVs (with headers)
             csv_exporter.initialize_csvs()
+            
+            # Clean old normalized Excel files
+            norm_excel_dir = project_root / 'outputs' / 'norm_excel'
+            for old_excel in norm_excel_dir.glob('*_NORMALIZED.xlsx'):
+                old_excel.unlink()
             
             # Find all CSV files in output directory
             csv_files = list(self.output_csv_dir.glob('*.csv'))
@@ -272,6 +282,10 @@ class ProtecAIPipeline:
                     # Append to consolidated CSVs
                     csv_exporter.append_normalized_data(normalized_data)
                     
+                    # Export individual normalized Excel
+                    base_filename = csv_file.stem
+                    excel_exporter.export_normalized(normalized_data, base_filename)
+                    
                     # Log summary
                     relay_id = normalized_data['relay_info']['relay_id']
                     self.logger.info(f"  → Relay: {relay_id}, CTs: {len(normalized_data.get('cts', []))}, VTs: {len(normalized_data.get('vts', []))}, Protections: {len(normalized_data.get('protections', []))}, Parameters: {len(normalized_data.get('parameters', []))}")
@@ -280,6 +294,7 @@ class ProtecAIPipeline:
                     raise
             
             self.logger.info("  ✓ CSV normalization completed")
+            self.logger.info(f"  ✓ Excel normalization completed: {len(csv_files)} files")
         except Exception as e:
             self.logger.error(f"  ✗ CSV normalization failed: {str(e)}", exc_info=True)
             raise

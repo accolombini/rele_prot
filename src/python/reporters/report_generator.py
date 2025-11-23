@@ -15,10 +15,20 @@ from .pdf_reporter import PDFReporter
 class ReportGenerator:
     """Orquestrador principal de geração de relatórios"""
     
-    # Relatórios que devem ser SEMPRE em landscape (muitas colunas)
-    FORCE_LANDSCAPE = ['REL06', 'REL08']
+    # Relatórios que devem ser SEMPRE em landscape (muitas colunas ou conteúdo longo)
+    FORCE_LANDSCAPE = ['REL06', 'REL08', 'REL09']
     
-    # Dicionário de abreviações para headers longos
+    # Relatórios que usam abreviações especiais de Fabricante e Tensão
+    REPORTS_WITH_SPECIAL_ABBREVIATIONS = ['REL02', 'REL03', 'REL04', 'REL05', 'REL06', 'REL07', 'REL08', 'REL09']
+    
+    # Abreviações especiais aplicadas APENAS em REL05-REL09
+    SPECIAL_ABBREVIATIONS = {
+        'Fabricante': 'Fab',
+        'Fabricantes': 'Fab',
+        'C.Tensão\nkV': 'V_kV'
+    }
+    
+    # Dicionário de abreviações para headers longos (aplicado em TODOS os relatórios)
     HEADER_ABBREVIATIONS = {
         'Código ANSI': 'Cd.ANSI',
         'Nome da Função': 'Função',
@@ -45,17 +55,13 @@ class ReportGenerator:
         'TP Habilitado': 'TP\nHabil',
         'Fonte de Tensão': 'Fonte\nTensão',
         'Confiança da Tensão': 'Conf.\nTensão',
-        'Fabricantes': 'Fab',
         'Habilitadas': 'EN',
         'Desabilitadas': 'DES',
         'Código da Subestação': 'SE',
-        'Fabricante': 'Fab',
         'Proteções Habilitadas': 'Prot\nHabil',
         'Data de Configuração': 'Data\nConfig',
         'Versão de Software': 'Ver.\nSW',
-        'Versão de Firmware': 'Ver.\nFW',
-        'C.Tensão\nkV': 'V_kV',
-        'Classe de Tensão (kV)': 'V_kV'
+        'Versão de Firmware': 'Ver.\nFW'
     }
     
     # Mapeamento de tradução de colunas para headers formatados
@@ -240,13 +246,14 @@ class ReportGenerator:
         self.excel_reporter = ExcelReporter(output_base_path)
         self.pdf_reporter = PDFReporter(output_base_path)
     
-    def translate_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+    def translate_columns(self, df: pd.DataFrame, report_code: str = None) -> pd.DataFrame:
         """
         Traduz os nomes das colunas do DataFrame usando o mapeamento
         e aplica abreviações para otimizar espaço nos relatórios
         
         Args:
             df: DataFrame com colunas em inglês/snake_case
+            report_code: Código do relatório (REL01-REL09) para abreviações específicas
             
         Returns:
             DataFrame com colunas traduzidas, formatadas e abreviadas
@@ -260,11 +267,17 @@ class ReportGenerator:
                 # Fallback: capitalizar primeira letra de cada palavra
                 translated = col.replace('_', ' ').title()
             
-            # Aplicar abreviações se houver
+            # Aplicar abreviações gerais (todos os relatórios)
             if translated in self.HEADER_ABBREVIATIONS:
-                column_mapping[col] = self.HEADER_ABBREVIATIONS[translated]
+                abbreviated = self.HEADER_ABBREVIATIONS[translated]
             else:
-                column_mapping[col] = translated
+                abbreviated = translated
+            
+            # Aplicar abreviações especiais APENAS para relatórios específicos (sobrescreve abreviações gerais)
+            if report_code in self.REPORTS_WITH_SPECIAL_ABBREVIATIONS and abbreviated in self.SPECIAL_ABBREVIATIONS:
+                column_mapping[col] = self.SPECIAL_ABBREVIATIONS[abbreviated]
+            else:
+                column_mapping[col] = abbreviated
         
         return df.rename(columns=column_mapping)
     
@@ -325,8 +338,8 @@ class ReportGenerator:
         
         print(f"  📊 {len(df)} registros encontrados")
         
-        # 🔧 TRADUZIR COLUNAS ANTES DE EXPORTAR
-        df = self.translate_columns(df)
+        # 🔧 TRADUZIR COLUNAS ANTES DE EXPORTAR (com report_code para abreviações seletivas)
+        df = self.translate_columns(df, report_code=report_code)
         
         # Gerar nos formatos solicitados
         generated_files = {}

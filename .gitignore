@@ -18,7 +18,14 @@ outputs/relatorios/
 inputs/registry/processed_files.json
 inputs/registry/processed_files_old.json
 inputs/registry/processed_files_backup_*.json
+inputs/registry/backup_*.json
 inputs/registry/*.bak
+
+# Arquivos de entrada (PDFs dos relés - não versionar)
+inputs/pdf/*.pdf
+inputs/txt/*.S40
+inputs/xlsx/*.xlsx
+inputs/csv/*.csv
 
 # Diretórios de build, cache e IDEs (recomendado)
 __pycache__/
