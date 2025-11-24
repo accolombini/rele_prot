@@ -1,26 +1,84 @@
-"""
-Schneider Parser
-Parses PDF files from Schneider relays (P122, P220, P922) exported via Easergy Studio
+"""Parser de arquivos PDF de relés Schneider Electric.
+
+Este módulo implementa parser especializado para arquivos PDF exportados pelo
+software Easergy Studio (Schneider Electric). Suporta múltiplos modelos de relés
+industriais incluindo P122, P220 e P922.
+
+Modelos suportados:
+    - P122/P123: Relés de sobrecorrente (apenas TC)
+    - P220/P22x: Relés de proteção de motores (apenas TC)
+    - P922/P92x: Relés de tensão e frequência (apenas TP)
+
+Formato de arquivo:
+    - Extensão: .pdf
+    - Software: Easergy Studio
+    - Fabricante: Schneider Electric
+    - Código identificador: "0120:" no início do arquivo
+
+Exemplo de uso:
+    >>> parser = SchneiderParser()
+    >>> dados = parser.parse_file('inputs/pdf/P122_SE01-12_20240101.pdf')
+    >>> print(f"Tipo: {dados['relay_type']}")
 """
 
 import re
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Tuple, List
 from ..extractors.pdf_extractor import PdfExtractor
 from ..utils.filename_parser import FilenameParser
 
 
 class SchneiderParser:
-    """Parser for Schneider relay PDF files (Easergy Studio)"""
+    """Parser especializado para PDFs de relés Schneider (Easergy Studio).
     
-    def __init__(self):
+    Processa arquivos PDF exportados do Easergy Studio, extraindo configurações
+    de relés Schneider das séries P122, P220 e P922.
+    
+    Attributes:
+        extractor (PdfExtractor): Extrator de conteúdo PDF
+        filename_parser (FilenameParser): Parser de metadados de nome de arquivo
+        manufacturer (str): Fabricante dos relés ('SCHNEIDER ELECTRIC')
+    """
+    
+    def __init__(self) -> None:
+        """Inicializa o parser Schneider com extratores apropriados.
+        
+        Configura extrator de PDF, parser de nomes de arquivo e define
+        fabricante padrão.
+        """
         self.extractor = PdfExtractor()
         self.filename_parser = FilenameParser()
         self.manufacturer = 'SCHNEIDER ELECTRIC'
     
     def parse_file(self, file_path: str) -> Dict[str, Any]:
-        """Parse a Schneider PDF file"""
+        """Processa arquivo PDF Schneider e extrai todos os dados do relé.
+        
+        Orquestra o processo completo de parse incluindo extração, validação
+        de fabricante, determinação de tipo de relé e interpretação de metadados.
+        
+        Args:
+            file_path: Caminho completo do arquivo PDF a ser processado
+            
+        Returns:
+            Dicionário com dados estruturados do relé:
+                - source_file: Caminho absoluto do arquivo
+                - file_name: Nome do arquivo
+                - file_type: Tipo do arquivo ('PDF')
+                - manufacturer: Fabricante validado
+                - relay_type: Tipo de aplicação do relé
+                - relay_data: Dados principais do relé
+                - ct_data: Configurações de TCs
+                - vt_data: Configurações de TPs
+                - protection_functions: Funções de proteção com códigos ANSI
+                - all_parameters: Lista completa de parâmetros
+                - validation: Resultado da validação
+                - raw_extracted: Dados brutos extraídos
+                
+        Raises:
+            ValueError: Se fabricante detectado não for Schneider Electric
+            FileNotFoundError: Se arquivo não for encontrado
+        """
         path = Path(file_path)
         
         # Extract all data

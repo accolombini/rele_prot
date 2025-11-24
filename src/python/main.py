@@ -1,15 +1,36 @@
-"""
-ProtecAI Data Pipeline - Main Entry Point
-Orchestrates the entire relay data extraction and normalization process
+"""Pipeline principal de extração e normalização de dados de relés.
+
+Este módulo orquestra o fluxo completo de processamento de arquivos de configuração
+de relés de proteção elétrica, incluindo:
+
+1. Extração de dados de arquivos PDF e .S40
+2. Normalização de dados para formato 3FN
+3. Carga no banco de dados PostgreSQL
+4. Geração de arquivos CSV e Excel consolidados
+
+O pipeline processa múltiplos fabricantes:
+    - General Electric (MiCOM): arquivos PDF com identificador "00.01:"
+    - Schneider Electric (Easergy): arquivos PDF com identificador "0120:"
+    - Schneider Electric (SEPAM): arquivos .S40 em formato INI
+
+Exemplo de uso:
+    >>> pipeline = ProtecAIPipeline()
+    >>> pipeline.run()
+    
+Ou via linha de comando:
+    $ python src/python/main.py
+
+Attributes:
+    project_root (Path): Diretório raiz do projeto
 """
 
 import sys
 import os
 from pathlib import Path
 from datetime import datetime
+from typing import Dict, Any, Tuple, Optional
 from dotenv import load_dotenv
 
-# Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -25,13 +46,37 @@ from src.python.exporters.full_parameters_exporter import FullParametersExporter
 
 
 class ProtecAIPipeline:
-    """Main pipeline orchestrator"""
+    """Orquestrador principal do pipeline de processamento de dados de relés.
     
-    def __init__(self, config_dir: str = None):
-        # Load environment variables
+    Esta classe coordena todo o fluxo de extração, normalização e carga de dados,
+    gerenciando interações entre parsers, exportadores, banco de dados e sistema
+    de logging.
+    
+    Attributes:
+        logger (PipelineLogger): Sistema de logging centralizado
+        file_manager (FileManager): Gerenciador de arquivos e registro
+        glossary (GlossaryLoader): Carregador de glossários e mapeamentos
+        db (DatabaseRepository): Repositório de banco de dados
+        micon_parser (MiconParser): Parser para relés GE MiCOM
+        schneider_parser (SchneiderParser): Parser para relés Schneider Easergy
+        sepam_parser (SepamParser): Parser para relés SEPAM
+        csv_exporter (FullParametersExporter): Exportador CSV
+        excel_exporter (ExcelExporter): Exportador Excel
+        stats (Dict): Estatísticas de processamento
+    """
+    
+    def __init__(self, config_dir: Optional[str] = None) -> None:
+        """Inicializa o pipeline com todos os componentes necessários.
+        
+        Carrega variáveis de ambiente, inicializa subsistemas de logging, 
+        gerenciamento de arquivos, acesso a banco de dados e parsers específicos
+        de cada fabricante.
+        
+        Args:
+            config_dir: Diretório opcional de configuração (não utilizado atualmente)
+        """
         load_dotenv(project_root / 'docker' / 'postgres' / '.env')
         
-        # Initialize utilities
         self.logger = PipelineLogger(log_dir=str(project_root / 'logs'))
         self.file_manager = FileManager(
             registry_path=str(project_root / 'inputs' / 'registry' / 'processed_files.json')
@@ -40,13 +85,11 @@ class ProtecAIPipeline:
             glossary_dir=str(project_root / 'inputs' / 'glossario')
         )
         
-        # Initialize database
         self.db = DatabaseRepository()
         
-        # Initialize parsers
-        self.micon_parser = MiconParser()  # GE relays (P143, P241)
-        self.schneider_parser = SchneiderParser()  # Schneider relays (P122, P220, P922)
-        self.sepam_parser = SepamParser()  # SEPAM relays
+        self.micon_parser = MiconParser()
+        self.schneider_parser = SchneiderParser()
+        self.sepam_parser = SepamParser()
         
         # Paths
         self.input_pdf_dir = project_root / 'inputs' / 'pdf'

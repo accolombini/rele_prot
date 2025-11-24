@@ -1,12 +1,35 @@
 #!/usr/bin/env python3
+"""Script de linha de comando para geração de relatórios analíticos.
+
+Este utilitário permite gerar relatórios do sistema via linha de comando,
+oferecendo flexibilidade para automação e processamento em lote.
+
+Funcionalidades:
+    - Geração individual ou em lote de relatórios
+    - Seleção de formatos de saída (CSV, Excel, PDF)
+    - Listagem de relatórios disponíveis
+    - Configuração de parâmetros de banco de dados
+
+Exemplos de uso:
+    Gerar todos os relatórios em todos os formatos:
+    $ python generate_reports.py --all
+    
+    Gerar relatório específico:
+    $ python generate_reports.py --report REL01
+    
+    Gerar em formato específico:
+    $ python generate_reports.py --report REL01 --format csv pdf
+    
+    Listar relatórios disponíveis:
+    $ python generate_reports.py --list
+    
+    Configurar banco de dados customizado:
+    $ python generate_reports.py --all --db-host servidor.com --db-port 5433
+
+Relatórios disponíveis:
+    REL01-REL09: Veja --list para detalhes completos
 """
-Script de exemplo para geração de relatórios
-Uso:
-    python generate_reports.py --all                    # Gera todos os 9 relatórios
-    python generate_reports.py --report REL01           # Gera apenas o REL01
-    python generate_reports.py --report REL01 --format csv pdf  # Apenas CSV e PDF
-    python generate_reports.py --list                   # Lista relatórios disponíveis
-"""
+
 import argparse
 import sys
 from pathlib import Path

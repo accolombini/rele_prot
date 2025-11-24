@@ -1,24 +1,75 @@
-"""
-SEPAM Parser
-Parses .S40 files from SEPAM relays (Schneider Electric)
+"""Parser de arquivos de configuração SEPAM (.S40).
+
+Este módulo implementa parser especializado para arquivos .S40 exportados por
+relés SEPAM (Schneider Electric). Processa configurações em formato INI,
+extraindo dados de transformadores, funções de proteção e parâmetros.
+
+Formato de arquivo suportado:
+    - Extensão: .S40
+    - Fabricante: Schneider Electric
+    - Série: SEPAM (S40/S80)
+    - Estrutura: Formato INI com seções e pares chave=valor
+
+Exemplo de uso:
+    >>> parser = SepamParser()
+    >>> dados = parser.parse_file('inputs/txt/00-MF-12_2016-03-31.S40')
+    >>> print(f"Modelo: {dados['relay_data']['modelo_rele']}")
 """
 
 import re
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 from ..extractors.ini_extractor import IniExtractor
 
 
 class SepamParser:
-    """Parser for SEPAM .S40 configuration files"""
+    """Parser especializado para arquivos de configuração SEPAM (.S40).
     
-    def __init__(self):
+    Processa arquivos .S40 exportados de relés SEPAM, extraindo informações
+    de modelo, transformadores (TC/TP), funções de proteção e parâmetros
+    configurados.
+    
+    Attributes:
+        extractor (IniExtractor): Extrator de dados em formato INI
+        manufacturer (str): Fabricante dos relés ('SCHNEIDER ELECTRIC')
+    """
+    
+    def __init__(self) -> None:
+        """Inicializa o parser SEPAM com extrator apropriado.
+        
+        Configura o extrator de arquivos INI e define o fabricante padrão.
+        """
         self.extractor = IniExtractor()
         self.manufacturer = 'SCHNEIDER ELECTRIC'
     
     def parse_file(self, file_path: str) -> Dict[str, Any]:
-        """Parse a SEPAM .S40 file"""
+        """Processa arquivo .S40 e extrai todos os dados do relé.
+        
+        Orquestra o processo completo de parse, incluindo extração de dados,
+        interpretação de metadados do nome do arquivo e validação.
+        
+        Args:
+            file_path: Caminho completo do arquivo .S40 a ser processado
+            
+        Returns:
+            Dicionário com dados estruturados do relé:
+                - source_file: Caminho absoluto do arquivo
+                - file_name: Nome do arquivo
+                - file_type: Tipo do arquivo ('S40')
+                - manufacturer: Fabricante ('SCHNEIDER ELECTRIC')
+                - relay_data: Dados principais do relé
+                - ct_data: Configurações de TCs
+                - vt_data: Configurações de TPs
+                - protection_functions: Funções de proteção
+                - all_parameters: Lista completa de parâmetros
+                - validation: Resultado da validação
+                - raw_extracted: Dados brutos extraídos
+                
+        Raises:
+            FileNotFoundError: Se arquivo não for encontrado
+            ValueError: Se arquivo tiver formato inválido
+        """
         path = Path(file_path)
         
         # Extract all data
@@ -119,8 +170,20 @@ class SepamParser:
         
         return relay_data
     
-    def validate_data(self, parsed_data: Dict[str, Any]) -> tuple[bool, list]:
-        """Validate parsed data"""
+    def validate_data(self, parsed_data: Dict[str, Any]) -> Tuple[bool, list]:
+        """Valida integridade dos dados extraídos do relé.
+        
+        Verifica presença de campos obrigatórios e consistência dos dados
+        extraídos, identificando possíveis problemas.
+        
+        Args:
+            parsed_data: Dicionário com dados parseados do relé
+            
+        Returns:
+            Tupla contendo:
+                - bool: True se dados válidos, False caso contrário
+                - list: Lista de mensagens de erro encontradas (vazia se válido)
+        """
         errors = []
         
         relay_data = parsed_data.get('relay_data', {})
