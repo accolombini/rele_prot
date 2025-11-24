@@ -1,4 +1,4 @@
-# ProtecAI - Pipeline de Extração e Análise de Relés de Proteção
+# Sistema de Extração e Análise de Relés de Proteção
 
 Sistema integrado para extração, normalização e análise de dados de relés de proteção elétrica.
 

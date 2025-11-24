@@ -1,10 +1,36 @@
-"""
-Gerador de Relatórios - Conecta ao PostgreSQL e gera os 9 relatórios do sistema
+"""Gerador de relatórios analíticos do sistema de relés.
+
+Este módulo implementa o sistema completo de geração de relatórios, conectando-se
+ao banco de dados PostgreSQL e produzindo saídas em múltiplos formatos (CSV, Excel, PDF).
+
+O sistema oferece 9 relatórios pré-definidos com análises específicas:
+    REL01: Fabricantes de Relés
+    REL02: Setpoints Críticos
+    REL03: Tipos de Relés
+    REL04: Relés por Fabricante
+    REL05: Funções de Proteção
+    REL06: Relatório Completo
+    REL07: Relés por Subestação
+    REL08: Análise de Tensão
+    REL09: Parâmetros Críticos
+
+Características:
+    - Tradução automática de colunas para português
+    - Abreviações inteligentes para headers longos
+    - Formatação específica por tipo de relatório
+    - Suporte a orientação landscape para relatórios largos
+    - Validação de dados e tratamento de erros
+
+Exemplo de uso:
+    >>> from src.python.reporters.report_generator import ReportGenerator
+    >>> generator = ReportGenerator()
+    >>> generator.generate_report('REL01', formats=['csv', 'xlsx', 'pdf'])
+    >>> generator.generate_all_reports(formats=['xlsx'])
 """
 import psycopg2
 import pandas as pd
 from pathlib import Path
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 from .csv_reporter import CSVReporter
@@ -13,7 +39,19 @@ from .pdf_reporter import PDFReporter
 
 
 class ReportGenerator:
-    """Orquestrador principal de geração de relatórios"""
+    """Orquestrador de geração de relatórios analíticos do sistema.
+    
+    Gerencia conexão com banco de dados, tradução de colunas, aplicação de
+    abreviações e delegação para reporters especializados (CSV, Excel, PDF).
+    
+    Attributes:
+        db_config (Dict): Configuração de conexão PostgreSQL
+        schema (str): Nome do schema no banco de dados
+        output_base_path (Path): Diretório raiz para saída de relatórios
+        csv_reporter (CSVReporter): Reporter para formato CSV
+        excel_reporter (ExcelReporter): Reporter para formato Excel
+        pdf_reporter (PDFReporter): Reporter para formato PDF
+    """
     
     # Relatórios que devem ser SEMPRE em landscape (muitas colunas ou conteúdo longo)
     FORCE_LANDSCAPE = ['REL06', 'REL08', 'REL09']
