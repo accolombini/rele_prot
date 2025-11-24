@@ -61,3 +61,6 @@ dmypy.json
 ~$*.docx
 ~$*.xlsx
 *.tmp
+
+# Documentação local (não versionar arquivos Word)
+documentacao/*.docx
