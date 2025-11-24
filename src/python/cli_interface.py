@@ -1,16 +1,34 @@
 #!/usr/bin/env python3
-"""
-Interface CLI para Sistema de Proteção PETROBRAS
-Pipeline de Processamento de Relés
+"""Interface de linha de comando para o Sistema de Proteção de Relés.
 
-Usa Rich para interface moderna e colorida.
+Este módulo implementa uma interface CLI interativa para operação do sistema
+de extração, normalização e análise de dados de relés de proteção elétrica.
+
+A interface permite:
+    - Execução do pipeline de processamento de novos arquivos PDF
+    - Geração de relatórios analíticos em múltiplos formatos (CSV, Excel, PDF)
+    - Visualização de estatísticas e status do sistema
+    - Navegação intuitiva via menus numerados
+
+A interface utiliza a biblioteca Rich para formatação visual aprimorada,
+incluindo tabelas, painéis, barras de progresso e esquema de cores.
+
+Exemplo de uso:
+    $ python src/python/cli_interface.py
+    
+    ou via script auxiliar:
+    
+    $ ./run_cli.sh
+
+Attributes:
+    ROOT_DIR (Path): Diretório raiz do projeto
 """
 
 import os
 import sys
 from pathlib import Path
+from typing import List, Dict, Optional
 
-# Adicionar diretório raiz ao path
 ROOT_DIR = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
@@ -18,7 +36,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
-from rich.prompt import Prompt, Confirm, IntPrompt
+from rich.prompt import Prompt, Confirm
 
 from src.python.utils.database_stats import DatabaseStats
 from src.python.utils.file_scanner import FileScanner
@@ -27,21 +45,44 @@ from src.python.main import ProtecAIPipeline
 
 
 class ProtecAICLI:
-    """Interface CLI para o sistema de proteção"""
+    """Interface de linha de comando para o Sistema de Proteção de Relés.
     
-    def __init__(self):
-        """Inicializa componentes do sistema"""
+    Esta classe orquestra a interação do usuário com o sistema através de menus
+    interativos, gerenciando a execução do pipeline de processamento e geração
+    de relatórios.
+    
+    Attributes:
+        console (Console): Instância Rich Console para saída formatada
+        db_stats (DatabaseStats): Cliente para consultas de estatísticas
+        file_scanner (FileScanner): Gerenciador de arquivos PDF
+        report_gen (ReportGenerator): Gerador de relatórios do sistema
+    """
+    
+    def __init__(self) -> None:
+        """Inicializa a interface CLI e seus componentes.
+        
+        Cria instâncias dos componentes necessários para operação do sistema,
+        incluindo gerenciadores de banco de dados, arquivos e relatórios.
+        """
         self.console = Console()
         self.db_stats = DatabaseStats()
         self.file_scanner = FileScanner()
         self.report_gen = ReportGenerator()
     
-    def clear_screen(self):
-        """Limpa a tela"""
+    def clear_screen(self) -> None:
+        """Limpa o conteúdo da tela do terminal.
+        
+        Executa comando apropriado ao sistema operacional para limpar
+        a tela, preparando para nova renderização de interface.
+        """
         os.system('clear' if os.name != 'nt' else 'cls')
     
-    def print_header(self):
-        """Imprime cabeçalho do sistema"""
+    def print_header(self) -> None:
+        """Renderiza o cabeçalho visual do sistema.
+        
+        Exibe painel formatado contendo o título do sistema e identificação
+        do módulo em execução.
+        """
         self.console.print()
         self.console.print(Panel.fit(
             "[bold white]🔌 SISTEMA DE PROTEÇÃO PETROBRAS[/bold white]\n"
@@ -49,8 +90,14 @@ class ProtecAICLI:
             border_style="cyan"
         ))
     
-    def print_status_bar(self):
-        """Imprime barra de status"""
+    def print_status_bar(self) -> None:
+        """Exibe barra de status com métricas do sistema.
+        
+        Renderiza informações sobre conectividade com banco de dados e
+        estatísticas básicas como total de relés processados.
+        
+        Em caso de falha na conexão, exibe mensagem de alerta ao usuário.
+        """
         try:
             db_online = self.db_stats.check_connection()
             total_relays = self.db_stats.get_total_relays() if db_online else 0
@@ -63,8 +110,20 @@ class ProtecAICLI:
         except Exception:
             self.console.print("[yellow]⚠ Não foi possível conectar ao banco de dados[/yellow]\n")
     
-    def show_main_menu(self):
-        """Exibe menu principal e aguarda escolha"""
+    def show_main_menu(self) -> None:
+        """Exibe menu principal e processa navegação do usuário.
+        
+        Renderiza menu principal com opções de operação do sistema,
+        captura entrada do usuário e despacha para o submenu apropriado.
+        
+        Loop continua até que o usuário selecione a opção de saída.
+        
+        Opções disponíveis:
+            1 - Executar Pipeline de processamento
+            2 - Gerar Relatórios analíticos
+            3 - Visualizar Status do Sistema
+            0 - Sair da aplicação
+        """
         while True:
             self.clear_screen()
             self.print_header()
@@ -96,8 +155,19 @@ class ProtecAICLI:
                     self.console.print("\n[green]OK - Encerrando sistema...[/green]\n")
                     break
     
-    def menu_executar_pipeline(self):
-        """Menu para executar pipeline"""
+    def menu_executar_pipeline(self) -> None:
+        """Submenu de execução do pipeline de processamento.
+        
+        Escaneia diretório de entrada, identifica arquivos PDF pendentes
+        de processamento e oferece opção de executar pipeline completo.
+        
+        O pipeline inclui:
+            - Extração de dados de PDFs e arquivos .S40
+            - Normalização de dados para formato 3FN
+            - Carga no banco de dados PostgreSQL
+        
+        Exibe progressão durante execução e relatório de sucesso ao final.
+        """
         self.clear_screen()
         self.print_header()
         self.console.print(Panel("[bold cyan]🔄 EXECUTAR PIPELINE[/bold cyan]", border_style="cyan"))
@@ -154,8 +224,15 @@ class ProtecAICLI:
             self.console.print("\n[yellow]✗ Operação cancelada[/yellow]")
             Prompt.ask("\n[yellow]Pressione ENTER para continuar[/yellow]", default="")
     
-    def menu_gerar_relatorios(self):
-        """Menu para gerar relatórios"""
+    def menu_gerar_relatorios(self) -> None:
+        """Submenu de geração de relatórios analíticos.
+        
+        Oferece opções para geração de relatórios do sistema:
+            - Geração em lote de todos os 9 relatórios disponíveis
+            - Seleção individual de relatórios específicos
+        
+        Relatórios podem ser exportados em múltiplos formatos (CSV, Excel, PDF).
+        """
         self.clear_screen()
         self.print_header()
         self.console.print(Panel("[bold cyan]GERAR RELATORIOS[/bold cyan]", border_style="cyan"))
@@ -179,8 +256,25 @@ class ProtecAICLI:
         elif choice == '0':
             return
     
-    def gerar_todos_relatorios(self):
-        """Gera todos os 9 relatórios"""
+    def gerar_todos_relatorios(self) -> None:
+        """Gera todos os nove relatórios analíticos do sistema.
+        
+        Executa geração em lote de todos os relatórios definidos (REL01-REL09),
+        permitindo ao usuário escolher os formatos de exportação desejados.
+        
+        Relatórios gerados:
+            REL01 - Fabricantes de Relés
+            REL02 - Setpoints Críticos
+            REL03 - Tipos de Relés
+            REL04 - Relés por Fabricante
+            REL05 - Funções de Proteção
+            REL06 - Relatório Completo
+            REL07 - Relés por Subestação
+            REL08 - Análise de Tensão
+            REL09 - Parâmetros Críticos
+        
+        Exibe barra de progresso durante execução.
+        """
         self.clear_screen()
         self.print_header()
         self.console.print(Panel("[bold cyan]📊 GERANDO TODOS OS RELATÓRIOS[/bold cyan]", border_style="cyan"))
@@ -215,8 +309,19 @@ class ProtecAICLI:
         self.console.print(f"\n[green]✓ Relatórios gerados em: outputs/relatorios/[/green]")
         Prompt.ask("\n[yellow]Pressione ENTER para continuar[/yellow]", default="")
     
-    def selecionar_relatorios(self):
-        """Permite selecionar relatórios individuais"""
+    def selecionar_relatorios(self) -> None:
+        """Permite seleção interativa de relatórios individuais.
+        
+        Exibe lista numerada de todos os relatórios disponíveis e permite
+        ao usuário selecionar um subconjunto para geração.
+        
+        Entrada aceita:
+            - Números separados por vírgula (ex: '1,2,5')
+            - 'T' para selecionar todos
+            - '0' para cancelar
+        
+        Após seleção, solicita escolha de formatos de exportação.
+        """
         self.clear_screen()
         self.print_header()
         self.console.print(Panel("[bold cyan]📊 SELECIONAR RELATÓRIOS[/bold cyan]", border_style="cyan"))
@@ -290,8 +395,19 @@ class ProtecAICLI:
         self.console.print(f"\n[green]✓ Relatórios gerados em: outputs/relatorios/[/green]")
         Prompt.ask("\n[yellow]Pressione ENTER para continuar[/yellow]", default="")
     
-    def escolher_formatos(self):
-        """Permite escolher formatos de exportação"""
+    def escolher_formatos(self) -> List[str]:
+        """Solicita ao usuário escolha de formatos de exportação.
+        
+        Oferece opções de formato para geração dos relatórios:
+            1 - CSV (valores separados por vírgula)
+            2 - Excel (arquivo .xlsx)
+            3 - PDF (documento formatado)
+            4 - Todos os formatos acima
+        
+        Returns:
+            Lista de strings com formatos selecionados (['csv', 'xlsx', 'pdf']).
+            Padrão retorna todos os formatos se nenhum for especificado.
+        """
         self.console.print("\n[bold cyan]Escolha os formatos de exportação:[/bold cyan]")
         
         self.console.print("\n[bold]Formatos disponíveis:[/bold]")
@@ -311,8 +427,20 @@ class ProtecAICLI:
         
         return formatos_map.get(escolha, ['csv', 'xlsx', 'pdf'])
     
-    def menu_status_sistema(self):
-        """Menu para exibir status do sistema"""
+    def menu_status_sistema(self) -> None:
+        """Submenu de visualização de estatísticas e status do sistema.
+        
+        Consulta banco de dados e exibe métricas consolidadas incluindo:
+            - Totais de relés, funções de proteção e parâmetros
+            - Distribuição por fabricante
+            - Distribuição por tipo de relé
+            - Distribuição por classe de tensão
+        
+        Informações são apresentadas em tabelas formatadas.
+        
+        Raises:
+            Exception: Captura e exibe erros de conexão com banco de dados.
+        """
         self.clear_screen()
         self.print_header()
         self.console.print(Panel("[bold cyan]📈 STATUS DO SISTEMA[/bold cyan]", border_style="cyan"))
@@ -354,8 +482,21 @@ class ProtecAICLI:
         Prompt.ask("\n[yellow]Pressione ENTER para voltar[/yellow]", default="")
 
 
-def main():
-    """Função principal"""
+def main() -> None:
+    """Ponto de entrada principal da aplicação CLI.
+    
+    Inicializa a interface de linha de comando e gerencia o loop principal
+    de interação com o usuário. Trata interrupções de teclado e exceções
+    não capturadas de forma apropriada.
+    
+    Exits:
+        0: Saída normal ou interrupção por usuário (Ctrl+C)
+        1: Erro fatal durante execução
+    
+    Raises:
+        KeyboardInterrupt: Capturada e tratada como saída limpa
+        Exception: Capturada e exibida como erro fatal
+    """
     try:
         cli = ProtecAICLI()
         cli.show_main_menu()
